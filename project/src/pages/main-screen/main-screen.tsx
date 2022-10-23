@@ -12,9 +12,17 @@ const generateFilmsList = (filmsCount: number): JSX.Element[] => {
 
 type MainScreenProps = {
   filmsCount: number;
+  promoName: string;
+  promoGenre: string;
+  promoReleaseYear: number;
 };
 
-function MainScreen({ filmsCount }: MainScreenProps): JSX.Element {
+function MainScreen({
+  filmsCount,
+  promoName,
+  promoGenre,
+  promoReleaseYear,
+}: MainScreenProps): JSX.Element {
   return (
     <>
       <section className="film-card">
@@ -59,10 +67,10 @@ function MainScreen({ filmsCount }: MainScreenProps): JSX.Element {
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{promoName}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{promoGenre}</span>
+                <span className="film-card__year">{promoReleaseYear}</span>
               </p>
 
               <div className="film-card__buttons">
