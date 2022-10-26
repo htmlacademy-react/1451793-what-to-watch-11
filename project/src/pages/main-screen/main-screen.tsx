@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import Card from '../../components/card/card';
 import Logo from '../../components/logo/logo';
 
@@ -26,6 +27,9 @@ function MainScreen({
 }: MainScreenProps): JSX.Element {
   return (
     <>
+      <Helmet>
+        <title>Что посмотреть.</title>
+      </Helmet>
       <section className="film-card">
         <div className="film-card__bg">
           <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />

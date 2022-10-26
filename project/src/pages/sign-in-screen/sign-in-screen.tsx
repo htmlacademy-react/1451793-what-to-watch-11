@@ -1,8 +1,13 @@
+import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 
 function SignInScreen(): JSX.Element {
   return (
     <div className="user-page">
+      <Helmet>
+        <title>Что посмотреть. Авторизация</title>
+      </Helmet>
+
       <header className="page-header user-page__head">
         <Logo isLogoLight={false} />
 
