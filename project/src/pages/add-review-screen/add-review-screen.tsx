@@ -25,7 +25,9 @@ function AddReviewScreen(): JSX.Element {
                 </a>
               </li>
               <li className="breadcrumbs__item">
-                <a href="/" className="breadcrumbs__link">Add review</a>
+                <a href="/" className="breadcrumbs__link">
+                  Add review
+                </a>
               </li>
             </ul>
           </nav>
@@ -37,7 +39,9 @@ function AddReviewScreen(): JSX.Element {
               </div>
             </li>
             <li className="user-block__item">
-              <a href="/" className="user-block__link">Sign out</a>
+              <a href="/" className="user-block__link">
+                Sign out
+              </a>
             </li>
           </ul>
         </header>
@@ -66,14 +70,7 @@ function AddReviewScreen(): JSX.Element {
                 Rating 9
               </label>
 
-              <input
-                className="rating__input"
-                id="star-8"
-                type="radio"
-                name="rating"
-                value="8"
-                checked
-              />
+              <input className="rating__input" id="star-8" type="radio" name="rating" value="8" />
               <label className="rating__label" htmlFor="star-8">
                 Rating 8
               </label>
