@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Card from '../../components/card/card';
 import Logo from '../../components/logo/logo';
+import Footer from '../../components/footer/footer';
 
 const generateFilmsList = (filmsCount: number): JSX.Element[] => {
   const filmsList = [];
@@ -158,13 +159,7 @@ function MainScreen({
           </div>
         </section>
 
-        <footer className="page-footer">
-          <Logo isLogoLight />
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

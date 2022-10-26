@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
+import Footer from '../../components/footer/footer';
 
 function FilmScreen(): JSX.Element {
   return (
@@ -192,13 +193,7 @@ function FilmScreen(): JSX.Element {
           </div>
         </section>
 
-        <footer className="page-footer">
-          <Logo isLogoLight />
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );
