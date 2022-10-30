@@ -12,46 +12,44 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 
 import PrivateRoute from '../private-route/private-route';
 
-type AppProps = {
+type Props = {
   filmsCount: number;
   promoName: string;
   promoGenre: string;
   promoReleaseYear: number;
 };
 
-function App({ filmsCount, promoName, promoGenre, promoReleaseYear }: AppProps): JSX.Element {
-  return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path={AppRoute.Root}
-            element={
-              <MainScreen
-                filmsCount={filmsCount}
-                promoName={promoName}
-                promoGenre={promoGenre}
-                promoReleaseYear={promoReleaseYear}
-              />
-            }
-          />
-          <Route path={AppRoute.SignIn} element={<SignInScreen />} />
-          <Route
-            path={AppRoute.MyList}
-            element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <MyListScreen />
-              </PrivateRoute>
-            }
-          />
-          <Route path={AppRoute.Film} element={<FilmScreen />} />
-          <Route path={AppRoute.AddReview} element={<AddReviewScreen />} />
-          <Route path={AppRoute.Player} element={<PlayerScreen />} />
-          <Route path="*" element={<NotFoundScreen />} />
-        </Routes>
-      </BrowserRouter>
-    </HelmetProvider>
-  );
-}
+const App = ({ filmsCount, promoName, promoGenre, promoReleaseYear }: Props): JSX.Element => (
+  <HelmetProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path={AppRoute.Root}
+          element={
+            <MainScreen
+              filmsCount={filmsCount}
+              promoName={promoName}
+              promoGenre={promoGenre}
+              promoReleaseYear={promoReleaseYear}
+            />
+          }
+        />
+        <Route path={AppRoute.SignIn} element={<SignInScreen />} />
+        <Route
+          path={AppRoute.MyList}
+          element={
+            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+              <MyListScreen />
+            </PrivateRoute>
+          }
+        />
+        <Route path={AppRoute.Film} element={<FilmScreen />} />
+        <Route path={AppRoute.AddReview} element={<AddReviewScreen />} />
+        <Route path={AppRoute.Player} element={<PlayerScreen />} />
+        <Route path="*" element={<NotFoundScreen />} />
+      </Routes>
+    </BrowserRouter>
+  </HelmetProvider>
+);
 
 export default App;

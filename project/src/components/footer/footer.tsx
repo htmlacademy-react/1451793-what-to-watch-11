@@ -1,15 +1,13 @@
 import Logo from '../logo/logo';
 
-function Footer(): JSX.Element {
-  return (
-    <footer className="page-footer">
-      <Logo isLogoLight />
+const Footer = (): JSX.Element => (
+  <footer className="page-footer">
+    <Logo isLogoLight />
 
-      <div className="copyright">
-        <p>© 2019 What to watch Ltd.</p>
-      </div>
-    </footer>
-  );
-}
+    <div className="copyright">
+      <p>© 2019 What to watch Ltd.</p>
+    </div>
+  </footer>
+);
 
 export default Footer;
