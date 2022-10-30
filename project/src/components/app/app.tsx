@@ -12,14 +12,23 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 
 import PrivateRoute from '../private-route/private-route';
 
+import { Film } from '../../types/film';
+
 type Props = {
   filmsCount: number;
   promoName: string;
   promoGenre: string;
   promoReleaseYear: number;
+  films: Film[];
 };
 
-const App = ({ filmsCount, promoName, promoGenre, promoReleaseYear }: Props): JSX.Element => (
+const App = ({
+  filmsCount,
+  promoName,
+  promoGenre,
+  promoReleaseYear,
+  films,
+}: Props): JSX.Element => (
   <HelmetProvider>
     <BrowserRouter>
       <Routes>

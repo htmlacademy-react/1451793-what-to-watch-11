@@ -1,4 +1,5 @@
 import { Setting, PromoMockData } from './const';
+import { films } from './mocks/films';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -16,6 +17,7 @@ if (rootElement) {
         promoName={PromoMockData.PromoName}
         promoGenre={PromoMockData.PromoGenre}
         promoReleaseYear={PromoMockData.PromoReleaseYear}
+        films={films}
       />
     </React.StrictMode>,
   );
