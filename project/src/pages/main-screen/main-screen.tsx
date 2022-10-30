@@ -1,31 +1,18 @@
 import { Helmet } from 'react-helmet-async';
-import Card from '../../components/card/card';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
+import FilmsList from '../../components/films-list/films-list';
 
-const generateFilmsList = (filmsCount: number): JSX.Element[] => {
-  const filmsList = [];
-
-  for (let i = 0; i < filmsCount; i++) {
-    filmsList.push(<Card key={i} />);
-  }
-
-  return filmsList;
-};
+import { Film } from '../../types/film';
 
 type Props = {
-  filmsCount: number;
   promoName: string;
   promoGenre: string;
   promoReleaseYear: number;
+  films: Film[];
 };
 
-const MainScreen = ({
-  filmsCount,
-  promoName,
-  promoGenre,
-  promoReleaseYear,
-}: Props): JSX.Element => (
+const MainScreen = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Element => (
   <>
     <Helmet>
       <title>Что посмотреть.</title>
@@ -149,7 +136,7 @@ const MainScreen = ({
           </li>
         </ul>
 
-        <div className="catalog__films-list">{generateFilmsList(filmsCount)}</div>
+        <FilmsList films={films} />
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">

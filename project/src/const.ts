@@ -1,7 +1,3 @@
-const Setting = {
-  FilmsCount: 20,
-} as const;
-
 const AppRoute = {
   Root: '/',
   SignIn: '/login',
@@ -23,4 +19,4 @@ const PromoMockData = {
   PromoReleaseYear: 2014,
 } as const;
 
-export { Setting, AppRoute, AuthorizationStatus, PromoMockData };
+export { AppRoute, AuthorizationStatus, PromoMockData };
