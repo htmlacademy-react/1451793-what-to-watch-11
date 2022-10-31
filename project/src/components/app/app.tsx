@@ -51,7 +51,7 @@ const App = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Ele
           />
           <Route path={AppRoute.Film} element={<FilmScreen />} />
           <Route path={AppRoute.AddReview} element={<AddReviewScreen />} />
-          <Route path={AppRoute.Player} element={<PlayerScreen />} />
+          <Route path={AppRoute.Player} element={<PlayerScreen films={films} />} />
           <Route path="*" element={<NotFoundScreen />} />
         </Routes>
       </BrowserRouter>
