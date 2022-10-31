@@ -21,37 +21,42 @@ type Props = {
   films: Film[];
 };
 
-const App = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Element => (
-  <HelmetProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path={AppRoute.Root}
-          element={
-            <MainScreen
-              promoName={promoName}
-              promoGenre={promoGenre}
-              promoReleaseYear={promoReleaseYear}
-              films={films}
-            />
-          }
-        />
-        <Route path={AppRoute.SignIn} element={<SignInScreen />} />
-        <Route
-          path={AppRoute.MyList}
-          element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <MyListScreen />
-            </PrivateRoute>
-          }
-        />
-        <Route path={AppRoute.Film} element={<FilmScreen />} />
-        <Route path={AppRoute.AddReview} element={<AddReviewScreen />} />
-        <Route path={AppRoute.Player} element={<PlayerScreen />} />
-        <Route path="*" element={<NotFoundScreen />} />
-      </Routes>
-    </BrowserRouter>
-  </HelmetProvider>
-);
+const App = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Element => {
+  const favoriteFilms = films.filter((film) => film.isFavorite);
+
+  return (
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path={AppRoute.Root}
+            element={
+              <MainScreen
+                promoName={promoName}
+                promoGenre={promoGenre}
+                promoReleaseYear={promoReleaseYear}
+                films={films}
+                favoriteFilmsCount={favoriteFilms.length}
+              />
+            }
+          />
+          <Route path={AppRoute.SignIn} element={<SignInScreen />} />
+          <Route
+            path={AppRoute.MyList}
+            element={
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <MyListScreen favoriteFilms={favoriteFilms} />
+              </PrivateRoute>
+            }
+          />
+          <Route path={AppRoute.Film} element={<FilmScreen />} />
+          <Route path={AppRoute.AddReview} element={<AddReviewScreen />} />
+          <Route path={AppRoute.Player} element={<PlayerScreen />} />
+          <Route path="*" element={<NotFoundScreen />} />
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
+  );
+};
 
 export default App;

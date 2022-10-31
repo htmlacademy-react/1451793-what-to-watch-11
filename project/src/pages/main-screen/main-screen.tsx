@@ -10,9 +10,16 @@ type Props = {
   promoGenre: string;
   promoReleaseYear: number;
   films: Film[];
+  favoriteFilmsCount: number;
 };
 
-const MainScreen = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Element => (
+const MainScreen = ({
+  promoName,
+  promoGenre,
+  promoReleaseYear,
+  films,
+  favoriteFilmsCount,
+}: Props): JSX.Element => (
   <>
     <Helmet>
       <title>Что посмотреть.</title>
@@ -71,7 +78,7 @@ const MainScreen = ({ promoName, promoGenre, promoReleaseYear, films }: Props): 
                   <use xlinkHref="#add"></use>
                 </svg>
                 <span>My list</span>
-                <span className="film-card__count">9</span>
+                <span className="film-card__count">{favoriteFilmsCount}</span>
               </button>
             </div>
           </div>
