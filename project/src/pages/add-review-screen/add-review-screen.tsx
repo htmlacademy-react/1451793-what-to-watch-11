@@ -1,5 +1,12 @@
+import { Helmet } from 'react-helmet-async';
+import Logo from '../../components/logo/logo';
+
 const AddReviewScreen = (): JSX.Element => (
   <section className="film-card film-card--full">
+    <Helmet>
+      <title>Что посмотреть. Добавить обзор</title>
+    </Helmet>
+
     <div className="film-card__header">
       <div className="film-card__bg">
         <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
@@ -8,13 +15,7 @@ const AddReviewScreen = (): JSX.Element => (
       <h1 className="visually-hidden">WTW</h1>
 
       <header className="page-header">
-        <div className="logo">
-          <a href="main.html" className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <Logo isLogoLight />
 
         <nav className="breadcrumbs">
           <ul className="breadcrumbs__list">
@@ -69,14 +70,7 @@ const AddReviewScreen = (): JSX.Element => (
               Rating 9
             </label>
 
-            <input
-              className="rating__input"
-              id="star-8"
-              type="radio"
-              name="rating"
-              value="8"
-              checked
-            />
+            <input className="rating__input" id="star-8" type="radio" name="rating" value="8" />
             <label className="rating__label" htmlFor="star-8">
               Rating 8
             </label>
