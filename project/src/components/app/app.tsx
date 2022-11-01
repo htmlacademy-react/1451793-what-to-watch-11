@@ -49,7 +49,10 @@ const App = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Ele
               </PrivateRoute>
             }
           />
-          <Route path={AppRoute.Film} element={<FilmScreen />} />
+          <Route
+            path={AppRoute.Film}
+            element={<FilmScreen films={films} favoriteFilmsCount={favoriteFilms.length} />}
+          />
           <Route path={AppRoute.AddReview} element={<AddReviewScreen films={films} />} />
           <Route path={AppRoute.Player} element={<PlayerScreen films={films} />} />
           <Route path="*" element={<NotFoundScreen />} />

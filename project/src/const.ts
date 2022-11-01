@@ -7,6 +7,14 @@ const AppRoute = {
   Player: '/player/:id',
 } as const;
 
+const TextRating = {
+  Bad: 'Bad',
+  Normal: 'Normal',
+  Good: 'Good',
+  VeryGood: 'Very Good',
+  Awesome: 'Awesome',
+} as const;
+
 const AuthorizationStatus = {
   Auth: 'AUTH',
   NoAuth: 'NO_AUTH',
@@ -19,4 +27,4 @@ const PromoMockData = {
   PromoReleaseYear: 2014,
 } as const;
 
-export { AppRoute, AuthorizationStatus, PromoMockData };
+export { AppRoute, AuthorizationStatus, PromoMockData, TextRating };

@@ -13,7 +13,10 @@ const AddReviewScreen = ({ films }: Props): JSX.Element => {
   const currentFilm = films.find((film) => film.id === Number(params.id));
 
   return (
-    <section className="film-card film-card--full">
+    <section
+      className="film-card film-card--full"
+      style={{ backgroundColor: currentFilm?.backgroundColor }}
+    >
       <Helmet>
         <title>Что посмотреть. Добавить обзор</title>
       </Helmet>
@@ -58,7 +61,12 @@ const AddReviewScreen = ({ films }: Props): JSX.Element => {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={currentFilm?.posterImage} alt={currentFilm?.name} width="218" height="327" />
+          <img
+            src={currentFilm?.posterImage}
+            alt={`${currentFilm?.name || ''} poster`}
+            width="218"
+            height="327"
+          />
         </div>
       </div>
 
