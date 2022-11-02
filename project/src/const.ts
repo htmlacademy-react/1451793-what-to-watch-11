@@ -3,6 +3,7 @@ const AppRoute = {
   SignIn: '/login',
   MyList: '/mylist',
   Film: '/films/:id',
+  Films: '/films',
   AddReview: '/films/:id/review',
   Player: '/player/:id',
 } as const;

@@ -1,3 +1,7 @@
+import { AppRoute } from '../../const';
+
+import { Link } from 'react-router-dom';
+
 import { Film } from '../../types/film';
 
 type Props = {
@@ -10,9 +14,9 @@ const Card = ({ film }: Props): JSX.Element => (
       <img src={film.previewImage} alt={film.name} width="280" height="175" />
     </div>
     <h3 className="small-film-card__title">
-      <a className="small-film-card__link" href="film-page.html">
+      <Link to={`${AppRoute.Films}/${film.id}`} className="small-film-card__link">
         {film.name}
-      </a>
+      </Link>
     </h3>
   </article>
 );
