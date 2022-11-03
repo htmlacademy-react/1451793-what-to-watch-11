@@ -1,11 +1,11 @@
 import { useState, ChangeEvent } from 'react';
 
 const AddReviewForm = (): JSX.Element => {
-  const [comment, setComment] = useState({ text: '' });
+  const [, setComment] = useState('');
 
   const handleChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const value = evt.target.value;
-    setComment({ ...comment, text: value });
+    setComment(value);
   };
 
   return (
