@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
+import { DefaultFormBg } from '../../const';
 import Logo from '../../components/logo/logo';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 
@@ -72,7 +73,7 @@ const AddReviewScreen = ({ films }: Props): JSX.Element => {
       </div>
 
       <div className="add-review">
-        <AddReviewForm />
+        <AddReviewForm backgroundColor={currentFilm?.backgroundColor || DefaultFormBg.Color} />
       </div>
     </section>
   );

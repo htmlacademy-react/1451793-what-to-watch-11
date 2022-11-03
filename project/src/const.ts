@@ -28,4 +28,9 @@ const PromoMockData = {
   PromoReleaseYear: 2014,
 } as const;
 
-export { AppRoute, AuthorizationStatus, PromoMockData, TextRating };
+const DefaultFormBg = {
+  Color: 'white',
+  Filter: 'contrast(120%)',
+} as const;
+
+export { AppRoute, AuthorizationStatus, PromoMockData, TextRating, DefaultFormBg };

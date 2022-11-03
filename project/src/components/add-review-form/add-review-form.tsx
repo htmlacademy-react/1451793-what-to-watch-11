@@ -1,6 +1,12 @@
 import { useState, ChangeEvent } from 'react';
 
-const AddReviewForm = (): JSX.Element => {
+import { DefaultFormBg } from '../../const';
+
+type Props = {
+  backgroundColor: string;
+};
+
+const AddReviewForm = ({ backgroundColor }: Props): JSX.Element => {
   const [, setComment] = useState('');
 
   const handleChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -64,7 +70,10 @@ const AddReviewForm = (): JSX.Element => {
         </div>
       </div>
 
-      <div className="add-review__text">
+      <div
+        className="add-review__text"
+        style={{ backgroundColor: backgroundColor, filter: DefaultFormBg.Filter }}
+      >
         <textarea
           className="add-review__textarea"
           name="review-text"
