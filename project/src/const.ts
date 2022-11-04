@@ -1,14 +1,19 @@
-const Setting = {
-  FilmsCount: 20,
-} as const;
-
 const AppRoute = {
   Root: '/',
   SignIn: '/login',
   MyList: '/mylist',
   Film: '/films/:id',
+  Films: '/films',
   AddReview: '/films/:id/review',
   Player: '/player/:id',
+} as const;
+
+const TextRating = {
+  Bad: 'Bad',
+  Normal: 'Normal',
+  Good: 'Good',
+  VeryGood: 'Very Good',
+  Awesome: 'Awesome',
 } as const;
 
 const AuthorizationStatus = {
@@ -23,4 +28,9 @@ const PromoMockData = {
   PromoReleaseYear: 2014,
 } as const;
 
-export { Setting, AppRoute, AuthorizationStatus, PromoMockData };
+const DefaultFormBg = {
+  Color: 'white',
+  Filter: 'contrast(120%)',
+} as const;
+
+export { AppRoute, AuthorizationStatus, PromoMockData, TextRating, DefaultFormBg };

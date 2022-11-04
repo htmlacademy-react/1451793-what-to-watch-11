@@ -1,4 +1,5 @@
-import { Setting, PromoMockData } from './const';
+import { PromoMockData } from './const';
+import { films } from './mocks/films';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -12,10 +13,10 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <App
-        filmsCount={Setting.FilmsCount}
         promoName={PromoMockData.PromoName}
         promoGenre={PromoMockData.PromoGenre}
         promoReleaseYear={PromoMockData.PromoReleaseYear}
+        films={films}
       />
     </React.StrictMode>,
   );
