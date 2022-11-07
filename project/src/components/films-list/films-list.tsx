@@ -9,16 +9,26 @@ type Props = {
 };
 
 const FilmsList = ({ films }: Props): JSX.Element => {
-  const [, setCurrentFilmId] = useState<number | null>(null);
+  const [currentFilmId, setCurrentFilmId] = useState<number | null>(null);
 
   const handleMouseOver = (id: number) => {
     setCurrentFilmId(id);
   };
 
+  const handleMouseOut = () => {
+    setCurrentFilmId(null);
+  };
+
   return (
     <div className="catalog__films-list">
       {films.map((film) => (
-        <Card key={film.id} film={film} onMouseOver={handleMouseOver} />
+        <Card
+          key={film.id}
+          film={film}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+          isPlaying={film.id === currentFilmId}
+        />
       ))}
     </div>
   );
