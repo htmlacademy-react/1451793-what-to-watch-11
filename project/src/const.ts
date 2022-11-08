@@ -33,4 +33,6 @@ const DefaultFormBg = {
   Filter: 'contrast(120%)',
 } as const;
 
-export { AppRoute, AuthorizationStatus, PromoMockData, TextRating, DefaultFormBg };
+const VIDEO_TIMEOUT = 1000;
+
+export { AppRoute, AuthorizationStatus, PromoMockData, TextRating, DefaultFormBg, VIDEO_TIMEOUT };
