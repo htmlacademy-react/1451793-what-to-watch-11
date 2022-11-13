@@ -1,9 +1,16 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
+import Tabs from '../../components/tabs/tabs';
+import Overview from '../../components/overview/overview';
+import Details from '../../components/details/details';
+import Reviews from '../../components/reviews/reviews';
 
-import { getTextRating } from '../../utils';
+import { reviews } from '../../mocks/reviews';
+
+import { Tab } from '../../const';
 
 import { Film } from '../../types/film';
 
@@ -14,7 +21,19 @@ type Props = {
 
 const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
   const params = useParams();
-  const currentFilm = films.find((film) => film.id === Number(params.id));
+  const [activeTab, setActiveTab] = useState<keyof typeof Tab>(Tab.Overview);
+
+  const getCurrentFilm = () => {
+    const currentFilm = films.find((film) => film.id === Number(params.id));
+
+    if (currentFilm !== undefined) {
+      return currentFilm;
+    } else {
+      throw new Error('Could not find the current film');
+    }
+  };
+
+  const getCurrentFilmReviews = () => reviews;
 
   return (
     <>
@@ -24,11 +43,11 @@ const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
 
       <section
         className="film-card film-card--full"
-        style={{ backgroundColor: currentFilm?.backgroundColor }}
+        style={{ backgroundColor: getCurrentFilm().backgroundColor }}
       >
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={currentFilm?.backgroundImage} alt={currentFilm?.name} />
+            <img src={getCurrentFilm().backgroundImage} alt={getCurrentFilm().name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -52,10 +71,10 @@ const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{currentFilm?.name}</h2>
+              <h2 className="film-card__title">{getCurrentFilm().name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{currentFilm?.genre}</span>
-                <span className="film-card__year">{currentFilm?.released}</span>
+                <span className="film-card__genre">{getCurrentFilm().genre}</span>
+                <span className="film-card__year">{getCurrentFilm().released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -84,55 +103,18 @@ const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={currentFilm?.posterImage}
-                alt={`${currentFilm?.name || ''} poster`}
+                src={getCurrentFilm().posterImage}
+                alt={`${getCurrentFilm().name || ''} poster`}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">
-                      Overview
-                    </a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">
-                      Details
-                    </a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">
-                      Reviews
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{currentFilm?.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">
-                    {getTextRating(currentFilm?.rating || 0)}
-                  </span>
-                  <span className="film-rating__count">240 ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{currentFilm?.description}</p>
-
-                <p className="film-card__director">
-                  <strong>Director: {currentFilm?.director}</strong>
-                </p>
-
-                <p className="film-card__starring">
-                  <strong>Starring: {currentFilm?.starring}</strong>
-                </p>
-              </div>
+              <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
+              {activeTab === Tab.Overview && <Overview film={getCurrentFilm()} />}
+              {activeTab === Tab.Details && <Details film={getCurrentFilm()} />}
+              {activeTab === Tab.Reviews && <Reviews reviews={getCurrentFilmReviews()} />}
             </div>
           </div>
         </div>

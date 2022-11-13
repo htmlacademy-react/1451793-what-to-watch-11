@@ -37,7 +37,7 @@ const AddReviewScreen = ({ films }: Props): JSX.Element => {
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
                 <a href="film-page.html" className="breadcrumbs__link">
-                  The Grand Budapest Hotel
+                  {currentFilm?.name}
                 </a>
               </li>
               <li className="breadcrumbs__item">
