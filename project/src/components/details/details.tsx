@@ -20,7 +20,7 @@ const Details = ({ film }: Props): JSX.Element => (
           {film.starring.map((actor) => (
             <Fragment key={actor}>
               {actor}
-              <br></br>
+              <br />
             </Fragment>
           ))}
         </span>
