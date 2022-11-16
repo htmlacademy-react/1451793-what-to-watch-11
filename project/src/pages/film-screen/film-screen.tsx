@@ -1,9 +1,19 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
+import Tabs from '../../components/tabs/tabs';
+import Overview from '../../components/overview/overview';
+import Details from '../../components/details/details';
+import Reviews from '../../components/reviews/reviews';
+import FilmsList from '../../components/films-list/films-list';
 
-import { getTextRating } from '../../utils';
+import { reviews } from '../../mocks/reviews';
+
+import { similarFilms } from '../../mocks/similar-films';
+
+import { Tab } from '../../const';
 
 import { Film } from '../../types/film';
 
@@ -12,9 +22,23 @@ type Props = {
   favoriteFilmsCount: number;
 };
 
+const getFilmById = (films: Film[], filmId: number) => {
+  const filmById = films.find((film) => film.id === filmId);
+
+  if (filmById !== undefined) {
+    return filmById;
+  } else {
+    throw new Error(`Could not find the film with id ${filmId}`);
+  }
+};
+
 const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
   const params = useParams();
-  const currentFilm = films.find((film) => film.id === Number(params.id));
+  const [activeTab, setActiveTab] = useState<keyof typeof Tab>(Tab.Overview);
+
+  const film = getFilmById(films, Number(params.id));
+
+  const getCurrentFilmReviews = () => reviews;
 
   return (
     <>
@@ -24,11 +48,11 @@ const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
 
       <section
         className="film-card film-card--full"
-        style={{ backgroundColor: currentFilm?.backgroundColor }}
+        style={{ backgroundColor: film.backgroundColor }}
       >
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={currentFilm?.backgroundImage} alt={currentFilm?.name} />
+            <img src={film.backgroundImage} alt={film.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -52,10 +76,10 @@ const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{currentFilm?.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{currentFilm?.genre}</span>
-                <span className="film-card__year">{currentFilm?.released}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -84,55 +108,18 @@ const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={currentFilm?.posterImage}
-                alt={`${currentFilm?.name || ''} poster`}
+                src={film.posterImage}
+                alt={`${film.name || ''} poster`}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">
-                      Overview
-                    </a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">
-                      Details
-                    </a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">
-                      Reviews
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{currentFilm?.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">
-                    {getTextRating(currentFilm?.rating || 0)}
-                  </span>
-                  <span className="film-rating__count">240 ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{currentFilm?.description}</p>
-
-                <p className="film-card__director">
-                  <strong>Director: {currentFilm?.director}</strong>
-                </p>
-
-                <p className="film-card__starring">
-                  <strong>Starring: {currentFilm?.starring}</strong>
-                </p>
-              </div>
+              <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
+              {activeTab === Tab.Overview && <Overview film={film} />}
+              {activeTab === Tab.Details && <Details film={film} />}
+              {activeTab === Tab.Reviews && <Reviews reviews={getCurrentFilmReviews()} />}
             </div>
           </div>
         </div>
@@ -142,61 +129,7 @@ const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-                  alt="Fantastic Beasts: The Crimes of Grindelwald"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Fantastic Beasts: The Crimes of Grindelwald
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/bohemian-rhapsody.jpg"
-                  alt="Bohemian Rhapsody"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Bohemian Rhapsody
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Macbeth
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Aviator
-                </a>
-              </h3>
-            </article>
-          </div>
+          <FilmsList films={similarFilms} />
         </section>
 
         <Footer />

@@ -16,6 +16,12 @@ const TextRating = {
   Awesome: 'Awesome',
 } as const;
 
+const Tab = {
+  Overview: 'Overview',
+  Details: 'Details',
+  Reviews: 'Reviews',
+} as const;
+
 const AuthorizationStatus = {
   Auth: 'AUTH',
   NoAuth: 'NO_AUTH',
@@ -35,4 +41,12 @@ const DefaultFormBg = {
 
 const VIDEO_TIMEOUT = 1000;
 
-export { AppRoute, AuthorizationStatus, PromoMockData, TextRating, DefaultFormBg, VIDEO_TIMEOUT };
+export {
+  AppRoute,
+  AuthorizationStatus,
+  PromoMockData,
+  TextRating,
+  DefaultFormBg,
+  VIDEO_TIMEOUT,
+  Tab,
+};
