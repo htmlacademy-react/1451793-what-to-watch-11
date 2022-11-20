@@ -101,7 +101,7 @@ const MainScreen = ({
 
           <FilmsList films={filtredByGenreFilmList.slice(0, filmsCount)} />
 
-          <ShowMoreButton />
+          {filtredByGenreFilmList.length - filmsCount > 0 && <ShowMoreButton />}
         </section>
 
         <Footer />

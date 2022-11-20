@@ -1,6 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount } from './action';
+import {
+  setActiveGenre,
+  getFiltredByGenreFilmList,
+  resetFilmsCount,
+  increaseFilmsCount,
+} from './action';
 
 import { Genre, FILMS_COUNT } from '../const';
 
@@ -34,6 +39,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetFilmsCount, (state) => {
       state.filmsCount = FILMS_COUNT;
+    })
+    .addCase(increaseFilmsCount, (state) => {
+      state.filmsCount += FILMS_COUNT;
     });
 });
 
