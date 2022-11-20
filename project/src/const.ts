@@ -43,15 +43,18 @@ const VIDEO_TIMEOUT = 1000;
 
 const Genre = {
   AllGenres: 'All genres',
-  Comedies: 'Comedies',
+  Action: 'Action',
+  Adventure: 'Adventure',
+  Comedie: 'Comedie',
   Crime: 'Crime',
   Documentary: 'Documentary',
-  Dramas: 'Dramas',
+  Drama: 'Drama',
+  Fantasy: 'Fantasy',
   Horror: 'Horror',
   KidsAndFamily: 'Kids & Family',
   Romance: 'Romance',
   SciFi: 'Sci-Fi',
-  Thrillers: 'Thrillers',
+  Thriller: 'Thriller',
 } as const;
 
 export {
