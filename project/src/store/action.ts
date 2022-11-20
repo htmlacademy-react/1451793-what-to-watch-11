@@ -11,4 +11,8 @@ const setActiveGenre = createAction(
 
 const getFiltredByGenreFilmList = createAction('setFilmList');
 
-export { setActiveGenre, getFiltredByGenreFilmList };
+const resetFilmsCount = createAction('resetFilmsCount');
+
+const increaseFilmsCount = createAction('increaseFilmsCount');
+
+export { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount, increaseFilmsCount };

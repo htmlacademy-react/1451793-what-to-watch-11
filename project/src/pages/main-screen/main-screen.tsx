@@ -3,6 +3,7 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmsList from '../../components/films-list/films-list';
 import GenresList from '../../components/genres-list/genres-list';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 
@@ -23,7 +24,7 @@ const MainScreen = ({
   films,
   favoriteFilmsCount,
 }: Props): JSX.Element => {
-  const { filtredByGenreFilmList } = useAppSelector((state) => state);
+  const { filtredByGenreFilmList, filmsCount } = useAppSelector((state) => state);
 
   return (
     <>
@@ -98,13 +99,9 @@ const MainScreen = ({
 
           <GenresList films={films} />
 
-          <FilmsList films={filtredByGenreFilmList} />
+          <FilmsList films={filtredByGenreFilmList.slice(0, filmsCount)} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">
-              Show more
-            </button>
-          </div>
+          {filtredByGenreFilmList.length - filmsCount > 0 && <ShowMoreButton />}
         </section>
 
         <Footer />
