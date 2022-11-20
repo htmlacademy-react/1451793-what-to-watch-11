@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { setActiveGenre, getFiltredByGenreFilmList } from './action';
+import { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount } from './action';
 
-import { Genre } from '../const';
+import { Genre, FILMS_COUNT } from '../const';
 
 import { Film } from '../types/film';
 
@@ -11,11 +11,13 @@ import { films } from '../mocks/films';
 type InitialStateType = {
   activeGenre: typeof Genre[keyof typeof Genre];
   filtredByGenreFilmList: Film[];
+  filmsCount: number;
 };
 
 const initialState: InitialStateType = {
   activeGenre: Genre.AllGenres,
   filtredByGenreFilmList: films,
+  filmsCount: FILMS_COUNT,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -29,6 +31,9 @@ const reducer = createReducer(initialState, (builder) => {
       } else {
         state.filtredByGenreFilmList = films.filter((film) => film.genre === state.activeGenre);
       }
+    })
+    .addCase(resetFilmsCount, (state) => {
+      state.filmsCount = FILMS_COUNT;
     });
 });
 

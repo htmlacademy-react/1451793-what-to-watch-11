@@ -45,7 +45,7 @@ const Genre = {
   AllGenres: 'All genres',
   Action: 'Action',
   Adventure: 'Adventure',
-  Comedie: 'Comedie',
+  Comedie: 'Comedy',
   Crime: 'Crime',
   Documentary: 'Documentary',
   Drama: 'Drama',
@@ -57,7 +57,10 @@ const Genre = {
   Thriller: 'Thriller',
 } as const;
 
+const FILMS_COUNT = 8;
+
 export {
+  FILMS_COUNT,
   AppRoute,
   AuthorizationStatus,
   PromoMockData,

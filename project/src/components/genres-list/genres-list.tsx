@@ -6,7 +6,7 @@ import { Genre } from '../../const';
 
 import { Film } from '../../types/film';
 
-import { setActiveGenre, getFiltredByGenreFilmList } from '../../store/action';
+import { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount } from '../../store/action';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 type Props = {
@@ -37,6 +37,7 @@ const GenresList = ({ films }: Props): JSX.Element => {
             onClick={() => {
               dispatch(setActiveGenre(genre));
               dispatch(getFiltredByGenreFilmList());
+              dispatch(resetFilmsCount());
             }}
           >
             {genre}
