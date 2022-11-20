@@ -24,7 +24,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.genre = action.payload;
     })
     .addCase(setFilmList, (state) => {
-      state.filmList = films;
+      state.filmList = films.filter((film) => film.genre === state.genre);
     });
 });
 
