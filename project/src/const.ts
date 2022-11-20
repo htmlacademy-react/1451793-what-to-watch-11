@@ -41,6 +41,22 @@ const DefaultFormBg = {
 
 const VIDEO_TIMEOUT = 1000;
 
+const Genre = {
+  AllGenres: 'All genres',
+  Action: 'Action',
+  Adventure: 'Adventure',
+  Comedie: 'Comedie',
+  Crime: 'Crime',
+  Documentary: 'Documentary',
+  Drama: 'Drama',
+  Fantasy: 'Fantasy',
+  Horror: 'Horror',
+  KidsAndFamily: 'Kids & Family',
+  Romance: 'Romance',
+  SciFi: 'Sci-Fi',
+  Thriller: 'Thriller',
+} as const;
+
 export {
   AppRoute,
   AuthorizationStatus,
@@ -49,4 +65,5 @@ export {
   DefaultFormBg,
   VIDEO_TIMEOUT,
   Tab,
+  Genre,
 };
