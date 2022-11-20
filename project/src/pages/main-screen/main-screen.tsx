@@ -3,6 +3,7 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmsList from '../../components/films-list/films-list';
 import GenresList from '../../components/genres-list/genres-list';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 
@@ -100,11 +101,7 @@ const MainScreen = ({
 
           <FilmsList films={filtredByGenreFilmList.slice(0, filmsCount)} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">
-              Show more
-            </button>
-          </div>
+          <ShowMoreButton />
         </section>
 
         <Footer />
