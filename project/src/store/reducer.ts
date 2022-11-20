@@ -1,5 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
+import { genreChange, setFilmList } from './action';
+
 import { Genre } from '../const';
 
 import { Film } from '../types/film';
@@ -17,7 +19,13 @@ const initialState: InitialStateType = {
 };
 
 const reducer = createReducer(initialState, (builder) => {
-  //
+  builder
+    .addCase(genreChange, (state, action) => {
+      state.genre = action.payload;
+    })
+    .addCase(setFilmList, (state) => {
+      state.filmList = films;
+    });
 });
 
 export { reducer };
