@@ -4,10 +4,10 @@ import { DefaultFormBg } from '../../const';
 import Logo from '../../components/logo/logo';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/films';
 
 type Props = {
-  films: Film[];
+  films: Films;
 };
 
 const AddReviewScreen = ({ films }: Props): JSX.Element => {

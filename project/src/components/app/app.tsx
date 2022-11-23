@@ -12,13 +12,13 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 
 import PrivateRoute from '../private-route/private-route';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/films';
 
 type Props = {
   promoName: string;
   promoGenre: string;
   promoReleaseYear: number;
-  films: Film[];
+  films: Films;
 };
 
 const App = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Element => {

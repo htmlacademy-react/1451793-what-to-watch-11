@@ -2,6 +2,8 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { Genre } from '../const';
 
+import { Films } from '../types/films';
+
 const setActiveGenre = createAction(
   'setActiveGenre',
   (value: typeof Genre[keyof typeof Genre]) => ({
@@ -15,4 +17,12 @@ const resetFilmsCount = createAction('resetFilmsCount');
 
 const increaseFilmsCount = createAction('increaseFilmsCount');
 
-export { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount, increaseFilmsCount };
+const loadFilms = createAction<Films>('loadFilms');
+
+export {
+  setActiveGenre,
+  getFiltredByGenreFilmList,
+  resetFilmsCount,
+  increaseFilmsCount,
+  loadFilms,
+};

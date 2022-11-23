@@ -1,6 +1,6 @@
-import { Film } from '../types/film';
+import { Films } from '../types/films';
 
-export const films: Film[] = [
+export const films: Films = [
   {
     name: 'A Star Is Born',
     posterImage: 'https://11.react.pages.academy/static/film/poster/A_Star_Is_Born.jpg',

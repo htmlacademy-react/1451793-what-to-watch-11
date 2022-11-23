@@ -5,17 +5,18 @@ import {
   getFiltredByGenreFilmList,
   resetFilmsCount,
   increaseFilmsCount,
+  loadFilms,
 } from './action';
 
 import { Genre, FILMS_COUNT } from '../const';
 
-import { Film } from '../types/film';
+import { Films } from '../types/films';
 
 import { films } from '../mocks/films';
 
 type InitialStateType = {
   activeGenre: typeof Genre[keyof typeof Genre];
-  filtredByGenreFilmList: Film[];
+  filtredByGenreFilmList: Films;
   filmsCount: number;
 };
 
@@ -42,6 +43,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(increaseFilmsCount, (state) => {
       state.filmsCount += FILMS_COUNT;
+    })
+    .addCase(loadFilms, (state, action) => {
+      state.filtredByGenreFilmList = action.payload;
     });
 });
 

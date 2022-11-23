@@ -7,13 +7,13 @@ import ShowMoreButton from '../../components/show-more-button/show-more-button';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/films';
 
 type Props = {
   promoName: string;
   promoGenre: string;
   promoReleaseYear: number;
-  films: Film[];
+  films: Films;
   favoriteFilmsCount: number;
 };
 

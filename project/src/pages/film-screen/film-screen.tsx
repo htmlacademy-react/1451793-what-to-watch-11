@@ -15,14 +15,14 @@ import { similarFilms } from '../../mocks/similar-films';
 
 import { Tab } from '../../const';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/films';
 
 type Props = {
-  films: Film[];
+  films: Films;
   favoriteFilmsCount: number;
 };
 
-const getFilmById = (films: Film[], filmId: number) => {
+const getFilmById = (films: Films, filmId: number) => {
   const filmById = films.find((film) => film.id === filmId);
 
   if (filmById !== undefined) {

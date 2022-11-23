@@ -3,10 +3,10 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmsList from '../../components/films-list/films-list';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/films';
 
 type Props = {
-  favoriteFilms: Film[];
+  favoriteFilms: Films;
 };
 
 const MyListScreen = ({ favoriteFilms }: Props): JSX.Element => (
