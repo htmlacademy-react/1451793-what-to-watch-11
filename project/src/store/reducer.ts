@@ -6,9 +6,10 @@ import {
   resetFilmsCount,
   increaseFilmsCount,
   loadFilms,
+  requireAuthorization,
 } from './action';
 
-import { Genre, FILMS_COUNT } from '../const';
+import { Genre, FILMS_COUNT, AuthorizationStatus } from '../const';
 
 import { Films } from '../types/films';
 
@@ -18,12 +19,14 @@ type InitialStateType = {
   activeGenre: typeof Genre[keyof typeof Genre];
   filtredByGenreFilmList: Films;
   filmsCount: number;
+  authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
 };
 
 const initialState: InitialStateType = {
   activeGenre: Genre.AllGenres,
   filtredByGenreFilmList: films,
   filmsCount: FILMS_COUNT,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -46,6 +49,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadFilms, (state, action) => {
       state.filtredByGenreFilmList = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 

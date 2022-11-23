@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { Genre } from '../const';
+import { Genre, AuthorizationStatus } from '../const';
 
 import { Films } from '../types/films';
 
@@ -19,10 +19,16 @@ const increaseFilmsCount = createAction('increaseFilmsCount');
 
 const loadFilms = createAction<Films>('loadFilms');
 
+const requireAuthorization =
+  createAction<typeof AuthorizationStatus[keyof typeof AuthorizationStatus]>(
+    'requireAuthorization',
+  );
+
 export {
   setActiveGenre,
   getFiltredByGenreFilmList,
   resetFilmsCount,
   increaseFilmsCount,
   loadFilms,
+  requireAuthorization,
 };
