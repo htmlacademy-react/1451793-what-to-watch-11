@@ -13,18 +13,18 @@ import { Genre, FILMS_COUNT, AuthorizationStatus } from '../const';
 
 import { Films } from '../types/films';
 
-import { films } from '../mocks/films';
-
-type InitialStateType = {
+type InitialState = {
   activeGenre: typeof Genre[keyof typeof Genre];
+  films: Films;
   filtredByGenreFilmList: Films;
   filmsCount: number;
   authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
 };
 
-const initialState: InitialStateType = {
+const initialState: InitialState = {
   activeGenre: Genre.AllGenres,
-  filtredByGenreFilmList: films,
+  films: [],
+  filtredByGenreFilmList: [],
   filmsCount: FILMS_COUNT,
   authorizationStatus: AuthorizationStatus.Unknown,
 };
@@ -36,9 +36,11 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getFiltredByGenreFilmList, (state) => {
       if (state.activeGenre === Genre.AllGenres) {
-        state.filtredByGenreFilmList = films;
+        state.filtredByGenreFilmList = state.films;
       } else {
-        state.filtredByGenreFilmList = films.filter((film) => film.genre === state.activeGenre);
+        state.filtredByGenreFilmList = state.films.filter(
+          (film) => film.genre === state.activeGenre,
+        );
       }
     })
     .addCase(resetFilmsCount, (state) => {
