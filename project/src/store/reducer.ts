@@ -22,6 +22,7 @@ type InitialState = {
   filtredByGenreFilmList: Films;
   filmsCount: number;
   authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
+  isLoading: boolean;
 };
 
 const initialState: InitialState = {
@@ -31,6 +32,7 @@ const initialState: InitialState = {
   filtredByGenreFilmList: [],
   filmsCount: FILMS_COUNT,
   authorizationStatus: AuthorizationStatus.Unknown,
+  isLoading: true,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -56,6 +58,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadFilms, (state, action) => {
       state.films = action.payload;
       state.filtredByGenreFilmList = action.payload;
+      state.isLoading = false;
     })
     .addCase(loadPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
