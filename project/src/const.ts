@@ -61,6 +61,13 @@ const FILMS_COUNT = 8;
 
 const URL_API = 'https://11.react.pages.academy/wtw';
 
+const APIRoute = {
+  Films: '/films',
+  Promo: '/promo',
+  Login: '/login',
+  Logout: '/logout',
+} as const;
+
 const REQUEST_TIMEOUT = 5000;
 
 export {
@@ -75,4 +82,5 @@ export {
   Genre,
   URL_API,
   REQUEST_TIMEOUT,
+  APIRoute,
 };
