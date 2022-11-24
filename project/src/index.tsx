@@ -1,12 +1,14 @@
 import { Provider } from 'react-redux';
 
 import { PromoMockData } from './const';
-import { films } from './mocks/films';
 import { store } from './store';
+import { fetchFilmsAction } from './store/api-actions';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
+
+store.dispatch(fetchFilmsAction());
 
 const rootElement = document.getElementById('root');
 
@@ -20,7 +22,6 @@ if (rootElement) {
           promoName={PromoMockData.PromoName}
           promoGenre={PromoMockData.PromoGenre}
           promoReleaseYear={PromoMockData.PromoReleaseYear}
-          films={films}
         />
       </Provider>
     </React.StrictMode>,

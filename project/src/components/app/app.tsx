@@ -12,16 +12,16 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 
 import PrivateRoute from '../private-route/private-route';
 
-import { Films } from '../../types/films';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 type Props = {
   promoName: string;
   promoGenre: string;
   promoReleaseYear: number;
-  films: Films;
 };
 
-const App = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Element => {
+const App = ({ promoName, promoGenre, promoReleaseYear }: Props): JSX.Element => {
+  const { films } = useAppSelector((state) => state);
   const favoriteFilms = films.filter((film) => film.isFavorite);
 
   return (
