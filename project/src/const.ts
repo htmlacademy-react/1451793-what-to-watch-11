@@ -28,12 +28,6 @@ const AuthorizationStatus = {
   Unknown: 'UNKNOWN',
 } as const;
 
-const PromoMockData = {
-  PromoName: 'The Grand Budapest Hotel',
-  PromoGenre: 'Drama',
-  PromoReleaseYear: 2014,
-} as const;
-
 const DefaultFormBg = {
   Color: 'white',
   Filter: 'contrast(120%)',
@@ -74,7 +68,6 @@ export {
   FILMS_COUNT,
   AppRoute,
   AuthorizationStatus,
-  PromoMockData,
   TextRating,
   DefaultFormBg,
   VIDEO_TIMEOUT,

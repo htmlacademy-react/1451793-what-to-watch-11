@@ -14,14 +14,9 @@ import PrivateRoute from '../private-route/private-route';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 
-type Props = {
-  promoName: string;
-  promoGenre: string;
-  promoReleaseYear: number;
-};
-
-const App = ({ promoName, promoGenre, promoReleaseYear }: Props): JSX.Element => {
+const App = (): JSX.Element => {
   const { films } = useAppSelector((state) => state);
+  const { promoFilm } = useAppSelector((state) => state);
   const favoriteFilms = films.filter((film) => film.isFavorite);
 
   return (
@@ -32,9 +27,7 @@ const App = ({ promoName, promoGenre, promoReleaseYear }: Props): JSX.Element =>
             path={AppRoute.Root}
             element={
               <MainScreen
-                promoName={promoName}
-                promoGenre={promoGenre}
-                promoReleaseYear={promoReleaseYear}
+                promoFilm={promoFilm}
                 films={films}
                 favoriteFilmsCount={favoriteFilms.length}
               />

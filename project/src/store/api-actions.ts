@@ -3,8 +3,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.js';
 
 import { Films } from '../types/films';
+import { Film } from '../types/film';
 
-import { loadFilms, requireAuthorization } from './action';
+import { loadFilms, requireAuthorization, loadPromoFilm } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
@@ -13,7 +14,7 @@ import { APIRoute, AuthorizationStatus } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 
-export const fetchFilmsAction = createAsyncThunk<
+const fetchFilmsAction = createAsyncThunk<
   void,
   undefined,
   { dispatch: AppDispatch; state: State; extra: AxiosInstance }
@@ -22,7 +23,7 @@ export const fetchFilmsAction = createAsyncThunk<
   dispatch(loadFilms(data));
 });
 
-export const checkAuthAction = createAsyncThunk<
+const checkAuthAction = createAsyncThunk<
   void,
   undefined,
   { dispatch: AppDispatch; state: State; extra: AxiosInstance }
@@ -35,7 +36,7 @@ export const checkAuthAction = createAsyncThunk<
   }
 });
 
-export const loginAction = createAsyncThunk<
+const loginAction = createAsyncThunk<
   void,
   AuthData,
   {
@@ -51,7 +52,7 @@ export const loginAction = createAsyncThunk<
   dispatch(requireAuthorization(AuthorizationStatus.Auth));
 });
 
-export const logoutAction = createAsyncThunk<
+const logoutAction = createAsyncThunk<
   void,
   undefined,
   {
@@ -64,3 +65,18 @@ export const logoutAction = createAsyncThunk<
   dropToken();
   dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
 });
+
+const fetchPromoFilmAction = createAsyncThunk<
+  void,
+  undefined,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('fetchPromoFilmAction', async (_arg, { dispatch, extra: api }) => {
+  const { data } = await api.get<Film>(APIRoute.Promo);
+  dispatch(loadPromoFilm(data));
+});
+
+export { fetchFilmsAction, checkAuthAction, loginAction, logoutAction, fetchPromoFilmAction };

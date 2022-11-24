@@ -8,22 +8,15 @@ import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 import { Films } from '../../types/films';
+import { Film } from '../../types/film';
 
 type Props = {
-  promoName: string;
-  promoGenre: string;
-  promoReleaseYear: number;
+  promoFilm: Film | null;
   films: Films;
   favoriteFilmsCount: number;
 };
 
-const MainScreen = ({
-  promoName,
-  promoGenre,
-  promoReleaseYear,
-  films,
-  favoriteFilmsCount,
-}: Props): JSX.Element => {
+const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Element => {
   const { filtredByGenreFilmList, filmsCount } = useAppSelector((state) => state);
 
   return (
@@ -33,7 +26,7 @@ const MainScreen = ({
       </Helmet>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promoFilm?.backgroundImage} alt={promoFilm?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -59,18 +52,18 @@ const MainScreen = ({
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src="img/the-grand-budapest-hotel-poster.jpg"
-                alt="The Grand Budapest Hotel poster"
+                src={promoFilm?.posterImage}
+                alt={promoFilm?.name}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{promoName}</h2>
+              <h2 className="film-card__title">{promoFilm?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{promoGenre}</span>
-                <span className="film-card__year">{promoReleaseYear}</span>
+                <span className="film-card__genre">{promoFilm?.genre}</span>
+                <span className="film-card__year">{promoFilm?.released}</span>
               </p>
 
               <div className="film-card__buttons">
