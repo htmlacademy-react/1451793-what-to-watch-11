@@ -1,12 +1,14 @@
 import { Provider } from 'react-redux';
 
 import { store } from './store';
-import { fetchFilmsAction, fetchPromoFilmAction } from './store/api-actions';
+import { fetchFilmsAction, fetchPromoFilmAction, checkAuthAction } from './store/api-actions';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import ErrorMessage from './components/error-message/error-message';
+
+store.dispatch(checkAuthAction());
 
 store.dispatch(fetchFilmsAction());
 store.dispatch(fetchPromoFilmAction());

@@ -13,7 +13,7 @@ import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { store } from './index.js';
+import { store } from './index';
 
 const fetchFilmsAction = createAsyncThunk<
   void,
