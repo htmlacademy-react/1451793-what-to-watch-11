@@ -6,6 +6,7 @@ import { fetchFilmsAction, fetchPromoFilmAction } from './store/api-actions';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
+import ErrorMessage from './components/error-message/error-message';
 
 store.dispatch(fetchFilmsAction());
 store.dispatch(fetchPromoFilmAction());
@@ -18,6 +19,7 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <Provider store={store}>
+        <ErrorMessage />
         <App />
       </Provider>
     </React.StrictMode>,
