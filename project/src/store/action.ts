@@ -22,7 +22,7 @@ const loadFilms = createAction<Films>('loadFilms');
 
 const loadPromoFilm = createAction<Film>('loadPromoFilm');
 
-const isDataError = createAction('setDataError');
+const setFilmsDataLoading = createAction<boolean>('setFilmsDataLoading');
 
 const requireAuthorization =
   createAction<typeof AuthorizationStatus[keyof typeof AuthorizationStatus]>(
@@ -39,6 +39,6 @@ export {
   loadFilms,
   requireAuthorization,
   loadPromoFilm,
-  isDataError,
-  setError
+  setError,
+  setFilmsDataLoading,
 };

@@ -5,7 +5,13 @@ import { AppDispatch, State } from '../types/state.js';
 import { Films } from '../types/films';
 import { Film } from '../types/film';
 
-import { loadFilms, requireAuthorization, loadPromoFilm, isDataError, setError } from './action';
+import {
+  loadFilms,
+  requireAuthorization,
+  loadPromoFilm,
+  setFilmsDataLoading,
+  setError,
+} from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
@@ -20,15 +26,13 @@ const fetchFilmsAction = createAsyncThunk<
   undefined,
   { dispatch: AppDispatch; state: State; extra: AxiosInstance }
 >('fetchFilms', async (_arg, { dispatch, extra: api }) => {
-  try {
-    const { data } = await api.get<Films>(APIRoute.Films);
-    if (data) {
-      dispatch(loadFilms(data));
-    } else {
-      throw new Error('No data');
-    }
-  } catch {
-    dispatch(isDataError());
+  dispatch(setFilmsDataLoading(true));
+  const { data } = await api.get<Films>(APIRoute.Films);
+  if (data) {
+    dispatch(setFilmsDataLoading(false));
+    dispatch(loadFilms(data));
+  } else {
+    throw new Error('No data');
   }
 });
 

@@ -8,8 +8,8 @@ import {
   loadFilms,
   requireAuthorization,
   loadPromoFilm,
-  isDataError,
   setError,
+  setFilmsDataLoading,
 } from './action';
 
 import { Genre, FILMS_COUNT, AuthorizationStatus } from '../const';
@@ -24,8 +24,7 @@ type InitialState = {
   filtredByGenreFilmList: Films;
   filmsCount: number;
   authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
-  isLoading: boolean;
-  isDataError: boolean;
+  isFilmsDataLoading: boolean;
   error: string | null;
 };
 
@@ -36,8 +35,7 @@ const initialState: InitialState = {
   filtredByGenreFilmList: [],
   filmsCount: FILMS_COUNT,
   authorizationStatus: AuthorizationStatus.Unknown,
-  isLoading: true,
-  isDataError: false,
+  isFilmsDataLoading: false,
   error: null,
 };
 
@@ -64,10 +62,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadFilms, (state, action) => {
       state.films = action.payload;
       state.filtredByGenreFilmList = action.payload;
-      state.isLoading = false;
     })
-    .addCase(isDataError, (state) => {
-      state.isDataError = true;
+    .addCase(setFilmsDataLoading, (state, action) => {
+      state.isFilmsDataLoading = action.payload;
     })
     .addCase(loadPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
