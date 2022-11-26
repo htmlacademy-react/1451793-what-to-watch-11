@@ -64,6 +64,8 @@ const APIRoute = {
 
 const REQUEST_TIMEOUT = 5000;
 
+const TIMEOUT_SHOW_ERROR = 2000;
+
 export {
   FILMS_COUNT,
   AppRoute,
@@ -76,4 +78,5 @@ export {
   URL_API,
   REQUEST_TIMEOUT,
   APIRoute,
+  TIMEOUT_SHOW_ERROR,
 };

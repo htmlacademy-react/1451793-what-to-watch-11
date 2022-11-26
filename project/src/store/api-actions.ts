@@ -5,14 +5,15 @@ import { AppDispatch, State } from '../types/state.js';
 import { Films } from '../types/films';
 import { Film } from '../types/film';
 
-import { loadFilms, requireAuthorization, loadPromoFilm, isDataError } from './action';
+import { loadFilms, requireAuthorization, loadPromoFilm, isDataError, setError } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
-import { APIRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { store } from './index.js';
 
 const fetchFilmsAction = createAsyncThunk<
   void,
@@ -87,4 +88,15 @@ const fetchPromoFilmAction = createAsyncThunk<
   dispatch(loadPromoFilm(data));
 });
 
-export { fetchFilmsAction, checkAuthAction, loginAction, logoutAction, fetchPromoFilmAction };
+const clearErrorAction = createAsyncThunk('clearError', () => {
+  setTimeout(() => store.dispatch(setError(null)), TIMEOUT_SHOW_ERROR);
+});
+
+export {
+  fetchFilmsAction,
+  checkAuthAction,
+  loginAction,
+  logoutAction,
+  fetchPromoFilmAction,
+  clearErrorAction,
+};
