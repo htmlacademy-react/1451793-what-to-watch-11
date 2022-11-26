@@ -5,7 +5,7 @@ import { AppDispatch, State } from '../types/state.js';
 import { Films } from '../types/films';
 import { Film } from '../types/film';
 
-import { loadFilms, requireAuthorization, loadPromoFilm } from './action';
+import { loadFilms, requireAuthorization, loadPromoFilm, isDataError } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
@@ -19,8 +19,16 @@ const fetchFilmsAction = createAsyncThunk<
   undefined,
   { dispatch: AppDispatch; state: State; extra: AxiosInstance }
 >('fetchFilms', async (_arg, { dispatch, extra: api }) => {
-  const { data } = await api.get<Films>(APIRoute.Films);
-  dispatch(loadFilms(data));
+  try {
+    const { data } = await api.get<Films>(APIRoute.Films);
+    if (data) {
+      dispatch(loadFilms(data));
+    } else {
+      throw new Error('No data');
+    }
+  } catch {
+    dispatch(isDataError());
+  }
 });
 
 const checkAuthAction = createAsyncThunk<

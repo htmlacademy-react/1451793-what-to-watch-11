@@ -10,14 +10,19 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import DataErrorScreen from '../../pages/data-error-screen/data-error-screen';
 
 import PrivateRoute from '../private-route/private-route';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 const App = (): JSX.Element => {
-  const { films, promoFilm, isLoading } = useAppSelector((state) => state);
+  const { films, promoFilm, isLoading, isDataError } = useAppSelector((state) => state);
   const favoriteFilms = films.filter((film) => film.isFavorite);
+
+  if (isDataError) {
+    return <DataErrorScreen />;
+  }
 
   if (isLoading) {
     return <LoadingScreen />;
