@@ -29,6 +29,8 @@ const requireAuthorization =
     'requireAuthorization',
   );
 
+const setError = createAction<string | null>('setError');
+
 export {
   setActiveGenre,
   getFiltredByGenreFilmList,
@@ -38,4 +40,5 @@ export {
   requireAuthorization,
   loadPromoFilm,
   isDataError,
+  setError
 };

@@ -9,6 +9,7 @@ import {
   requireAuthorization,
   loadPromoFilm,
   isDataError,
+  setError,
 } from './action';
 
 import { Genre, FILMS_COUNT, AuthorizationStatus } from '../const';
@@ -25,6 +26,7 @@ type InitialState = {
   authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
   isLoading: boolean;
   isDataError: boolean;
+  error: string | null;
 };
 
 const initialState: InitialState = {
@@ -36,6 +38,7 @@ const initialState: InitialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isLoading: true,
   isDataError: false,
+  error: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -71,6 +74,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });
 
