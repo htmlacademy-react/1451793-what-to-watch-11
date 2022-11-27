@@ -10,17 +10,15 @@ import {
   requireAuthorization,
   loadPromoFilm,
   setFilmsDataLoading,
-  setError,
   redirectToRoute,
 } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
-import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, AppRoute } from '../const';
+import { APIRoute, AuthorizationStatus, AppRoute } from '../const';
 
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
-import { store } from './index';
 
 const fetchFilmsAction = createAsyncThunk<
   void,
@@ -81,8 +79,4 @@ const fetchPromoFilmAction = createAsyncThunk<
   dispatch(loadPromoFilm(data));
 });
 
-const clearErrorAction = createAsyncThunk('clearError', () => {
-  setTimeout(() => store.dispatch(setError(null)), TIMEOUT_SHOW_ERROR);
-});
-
-export { fetchFilmsAction, loginAction, logoutAction, fetchPromoFilmAction, clearErrorAction };
+export { fetchFilmsAction, loginAction, logoutAction, fetchPromoFilmAction };

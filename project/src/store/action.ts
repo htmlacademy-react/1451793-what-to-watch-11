@@ -29,8 +29,6 @@ const requireAuthorization =
     'requireAuthorization',
   );
 
-const setError = createAction<string | null>('setError');
-
 const redirectToRoute = createAction<typeof AppRoute[keyof typeof AppRoute]>('redirectToRoute');
 
 export {
@@ -42,6 +40,5 @@ export {
   loadFilms,
   requireAuthorization,
   loadPromoFilm,
-  setError,
   setFilmsDataLoading,
 };
