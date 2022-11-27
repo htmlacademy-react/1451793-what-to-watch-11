@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 
 import { formatMinutesToTime } from '../../utils';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/films';
 
 type Props = {
-  films: Film[];
+  films: Films;
 };
 
 const PlayerScreen = ({ films }: Props): JSX.Element => {

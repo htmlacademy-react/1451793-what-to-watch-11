@@ -9,20 +9,19 @@ import MyListScreen from '../../pages/my-list-screen/my-list-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 import PrivateRoute from '../private-route/private-route';
 
-import { Film } from '../../types/film';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
-type Props = {
-  promoName: string;
-  promoGenre: string;
-  promoReleaseYear: number;
-  films: Film[];
-};
-
-const App = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Element => {
+const App = (): JSX.Element => {
+  const { films, promoFilm, isFilmsDataLoading } = useAppSelector((state) => state);
   const favoriteFilms = films.filter((film) => film.isFavorite);
+
+  if (isFilmsDataLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <HelmetProvider>
@@ -32,9 +31,7 @@ const App = ({ promoName, promoGenre, promoReleaseYear, films }: Props): JSX.Ele
             path={AppRoute.Root}
             element={
               <MainScreen
-                promoName={promoName}
-                promoGenre={promoGenre}
-                promoReleaseYear={promoReleaseYear}
+                promoFilm={promoFilm}
                 films={films}
                 favoriteFilmsCount={favoriteFilms.length}
               />

@@ -1,6 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { Genre } from '../const';
+import { Genre, AuthorizationStatus } from '../const';
+
+import { Films } from '../types/films';
+import { Film } from '../types/film';
 
 const setActiveGenre = createAction(
   'setActiveGenre',
@@ -15,4 +18,27 @@ const resetFilmsCount = createAction('resetFilmsCount');
 
 const increaseFilmsCount = createAction('increaseFilmsCount');
 
-export { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount, increaseFilmsCount };
+const loadFilms = createAction<Films>('loadFilms');
+
+const loadPromoFilm = createAction<Film>('loadPromoFilm');
+
+const setFilmsDataLoading = createAction<boolean>('setFilmsDataLoading');
+
+const requireAuthorization =
+  createAction<typeof AuthorizationStatus[keyof typeof AuthorizationStatus]>(
+    'requireAuthorization',
+  );
+
+const setError = createAction<string | null>('setError');
+
+export {
+  setActiveGenre,
+  getFiltredByGenreFilmList,
+  resetFilmsCount,
+  increaseFilmsCount,
+  loadFilms,
+  requireAuthorization,
+  loadPromoFilm,
+  setError,
+  setFilmsDataLoading,
+};

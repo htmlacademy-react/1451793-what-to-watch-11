@@ -28,12 +28,6 @@ const AuthorizationStatus = {
   Unknown: 'UNKNOWN',
 } as const;
 
-const PromoMockData = {
-  PromoName: 'The Grand Budapest Hotel',
-  PromoGenre: 'Drama',
-  PromoReleaseYear: 2014,
-} as const;
-
 const DefaultFormBg = {
   Color: 'white',
   Filter: 'contrast(120%)',
@@ -59,14 +53,30 @@ const Genre = {
 
 const FILMS_COUNT = 8;
 
+const URL_API = 'https://11.react.pages.academy/wtw';
+
+const APIRoute = {
+  Films: '/films',
+  Promo: '/promo',
+  Login: '/login',
+  Logout: '/logout',
+} as const;
+
+const REQUEST_TIMEOUT = 5000;
+
+const TIMEOUT_SHOW_ERROR = 2000;
+
 export {
   FILMS_COUNT,
   AppRoute,
   AuthorizationStatus,
-  PromoMockData,
   TextRating,
   DefaultFormBg,
   VIDEO_TIMEOUT,
   Tab,
   Genre,
+  URL_API,
+  REQUEST_TIMEOUT,
+  APIRoute,
+  TIMEOUT_SHOW_ERROR,
 };

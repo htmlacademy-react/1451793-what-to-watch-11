@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import Card from '../../components/card/card';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/films';
 
 type Props = {
-  films: Film[];
+  films: Films;
 };
 
 const FilmsList = ({ films }: Props): JSX.Element => {

@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 
 import { Genre } from '../../const';
 
-import { Film } from '../../types/film';
+import { Films } from '../../types/films';
 
 import { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount } from '../../store/action';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 type Props = {
-  films: Film[];
+  films: Films;
 };
 
 const GenresList = ({ films }: Props): JSX.Element => {

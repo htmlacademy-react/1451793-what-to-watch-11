@@ -1,12 +1,17 @@
 import { Provider } from 'react-redux';
 
-import { PromoMockData } from './const';
-import { films } from './mocks/films';
 import { store } from './store';
+import { fetchFilmsAction, fetchPromoFilmAction, checkAuthAction } from './store/api-actions';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
+import ErrorMessage from './components/error-message/error-message';
+
+store.dispatch(checkAuthAction());
+
+store.dispatch(fetchFilmsAction());
+store.dispatch(fetchPromoFilmAction());
 
 const rootElement = document.getElementById('root');
 
@@ -16,12 +21,8 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <Provider store={store}>
-        <App
-          promoName={PromoMockData.PromoName}
-          promoGenre={PromoMockData.PromoGenre}
-          promoReleaseYear={PromoMockData.PromoReleaseYear}
-          films={films}
-        />
+        <ErrorMessage />
+        <App />
       </Provider>
     </React.StrictMode>,
   );

@@ -1,6 +1,6 @@
-import { Film } from '../types/film';
+import { Films } from '../types/films';
 
-export const similarFilms: Film[] = [
+export const similarFilms: Films = [
   {
     name: 'Aviator',
     posterImage: 'https://11.react.pages.academy/static/film/poster/Aviator.jpg',
