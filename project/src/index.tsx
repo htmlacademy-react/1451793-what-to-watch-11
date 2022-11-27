@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 
 import { store } from './store';
-import { fetchFilmsAction, fetchPromoFilmAction } from './store/api-actions';
+import { fetchFilmsAction, fetchPromoFilmAction, checkAuthAction } from './store/api-actions';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchFilmsAction());
 store.dispatch(fetchPromoFilmAction());
+store.dispatch(checkAuthAction());
 
 const rootElement = document.getElementById('root');
 
