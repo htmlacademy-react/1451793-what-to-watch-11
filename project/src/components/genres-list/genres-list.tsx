@@ -1,5 +1,3 @@
-import { useDispatch } from 'react-redux';
-
 import { Link } from 'react-router-dom';
 
 import { Genre } from '../../const';
@@ -8,6 +6,7 @@ import { Films } from '../../types/films';
 
 import { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount } from '../../store/action';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 type Props = {
   films: Films;
@@ -19,7 +18,7 @@ const GenresList = ({ films }: Props): JSX.Element => {
     ...new Set(films.map((film) => film.genre)),
   ];
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { activeGenre } = useAppSelector((state) => state);
 
   return (

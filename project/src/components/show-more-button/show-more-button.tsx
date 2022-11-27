@@ -1,9 +1,9 @@
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 import { increaseFilmsCount } from '../../store/action';
 
 const ShowMoreButton = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div className="catalog__more">

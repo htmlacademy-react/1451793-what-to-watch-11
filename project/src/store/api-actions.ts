@@ -36,19 +36,6 @@ const fetchFilmsAction = createAsyncThunk<
   }
 });
 
-const checkAuthAction = createAsyncThunk<
-  void,
-  undefined,
-  { dispatch: AppDispatch; state: State; extra: AxiosInstance }
->('checkAuth', async (_arg, { dispatch, extra: api }) => {
-  try {
-    await api.get(APIRoute.Login);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-  } catch {
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-  }
-});
-
 const loginAction = createAsyncThunk<
   void,
   AuthData,
@@ -96,11 +83,4 @@ const clearErrorAction = createAsyncThunk('clearError', () => {
   setTimeout(() => store.dispatch(setError(null)), TIMEOUT_SHOW_ERROR);
 });
 
-export {
-  fetchFilmsAction,
-  checkAuthAction,
-  loginAction,
-  logoutAction,
-  fetchPromoFilmAction,
-  clearErrorAction,
-};
+export { fetchFilmsAction, loginAction, logoutAction, fetchPromoFilmAction, clearErrorAction };
