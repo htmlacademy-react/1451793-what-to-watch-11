@@ -4,6 +4,7 @@ import { Genre, AuthorizationStatus, AppRoute } from '../const';
 
 import { Films } from '../types/films';
 import { Film } from '../types/film';
+import { Comments } from '../types/comments';
 
 const setActiveGenre = createAction(
   'setActiveGenre',
@@ -19,6 +20,8 @@ const resetFilmsCount = createAction('resetFilmsCount');
 const increaseFilmsCount = createAction('increaseFilmsCount');
 
 const loadFilms = createAction<Films>('loadFilms');
+
+const loadFilmComments = createAction<Comments>('loadFilmComments');
 
 const loadPromoFilm = createAction<Film>('loadPromoFilm');
 
@@ -38,6 +41,7 @@ export {
   resetFilmsCount,
   increaseFilmsCount,
   loadFilms,
+  loadFilmComments,
   requireAuthorization,
   loadPromoFilm,
   setFilmsDataLoading,

@@ -4,6 +4,7 @@ import { AppDispatch, State } from '../types/state.js';
 
 import { Films } from '../types/films';
 import { Film } from '../types/film';
+import { Comments } from '../types/comments.js';
 
 import {
   loadFilms,
@@ -11,6 +12,7 @@ import {
   loadPromoFilm,
   setFilmsDataLoading,
   redirectToRoute,
+  loadFilmComments,
 } from './action';
 
 import { saveToken, dropToken } from '../services/token';
@@ -30,6 +32,19 @@ const fetchFilmsAction = createAsyncThunk<
   if (data) {
     dispatch(setFilmsDataLoading(false));
     dispatch(loadFilms(data));
+  } else {
+    throw new Error('No data');
+  }
+});
+
+const fetchFilmCommentsAction = createAsyncThunk<
+  void,
+  string,
+  { dispatch: AppDispatch; state: State; extra: AxiosInstance }
+>('fetchFilmComments', async (filmId, { dispatch, extra: api }) => {
+  const { data } = await api.get<Comments>(`${APIRoute.Comments}/${filmId}`);
+  if (data) {
+    dispatch(loadFilmComments(data));
   } else {
     throw new Error('No data');
   }
@@ -96,4 +111,11 @@ const checkAuthAction = createAsyncThunk<
   }
 });
 
-export { fetchFilmsAction, loginAction, logoutAction, fetchPromoFilmAction, checkAuthAction };
+export {
+  fetchFilmsAction,
+  loginAction,
+  logoutAction,
+  fetchPromoFilmAction,
+  checkAuthAction,
+  fetchFilmCommentsAction,
+};

@@ -60,6 +60,7 @@ const APIRoute = {
   Promo: '/promo',
   Login: '/login',
   Logout: '/logout',
+  Comments: '/comments',
 } as const;
 
 const REQUEST_TIMEOUT = 5000;

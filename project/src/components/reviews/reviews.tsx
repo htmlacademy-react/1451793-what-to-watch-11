@@ -1,23 +1,23 @@
 import Review from '../review/review';
 
-import { Comment } from '../../types/comment';
+import { Comments } from '../../types/comments';
 
 type Props = {
-  reviews: Comment[];
+  reviews: Comments;
 };
 
 const Reviews = ({ reviews }: Props): JSX.Element => (
   <div className="film-card__reviews film-card__row">
     <div className="film-card__reviews-col">
       {reviews
-        .filter((_, index) => index % 2 !== 0)
+        ?.filter((_, index) => index % 2 === 0)
         .map((comment) => (
           <Review review={comment} key={comment.id} />
         ))}
     </div>
     <div className="film-card__reviews-col">
       {reviews
-        .filter((_, index) => index % 2 === 0)
+        ?.filter((_, index) => index % 2 !== 0)
         .map((comment) => (
           <Review review={comment} key={comment.id} />
         ))}

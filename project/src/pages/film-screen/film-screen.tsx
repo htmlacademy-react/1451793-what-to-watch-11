@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
@@ -10,17 +10,20 @@ import Reviews from '../../components/reviews/reviews';
 import FilmsList from '../../components/films-list/films-list';
 import UserBlock from '../../components/user-block/user-block';
 
-import { reviews } from '../../mocks/reviews';
-
 import { similarFilms } from '../../mocks/similar-films';
 
 import { Tab } from '../../const';
 
 import { Films } from '../../types/films';
+import { Comments } from '../../types/comments';
+
+import { store } from '../../store';
+import { fetchFilmCommentsAction } from '../../store/api-actions';
 
 type Props = {
   films: Films;
   favoriteFilmsCount: number;
+  reviews: Comments;
 };
 
 const getFilmById = (films: Films, filmId: number) => {
@@ -33,13 +36,17 @@ const getFilmById = (films: Films, filmId: number) => {
   }
 };
 
-const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
+const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element => {
   const params = useParams();
   const [activeTab, setActiveTab] = useState<keyof typeof Tab>(Tab.Overview);
 
   const film = getFilmById(films, Number(params.id));
 
-  const getCurrentFilmReviews = () => reviews;
+  useEffect(() => {
+    if (params.id) {
+      store.dispatch(fetchFilmCommentsAction(params.id));
+    }
+  }, [params.id]);
 
   return (
     <>
@@ -109,7 +116,7 @@ const FilmScreen = ({ films, favoriteFilmsCount }: Props): JSX.Element => {
               <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
               {activeTab === Tab.Overview && <Overview film={film} />}
               {activeTab === Tab.Details && <Details film={film} />}
-              {activeTab === Tab.Reviews && <Reviews reviews={getCurrentFilmReviews()} />}
+              {activeTab === Tab.Reviews && <Reviews reviews={reviews} />}
             </div>
           </div>
         </div>
