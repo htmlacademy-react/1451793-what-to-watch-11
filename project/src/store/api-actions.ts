@@ -11,11 +11,12 @@ import {
   loadPromoFilm,
   setFilmsDataLoading,
   setError,
+  redirectToRoute,
 } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
-import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
+import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR, AppRoute } from '../const';
 
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
@@ -50,6 +51,7 @@ const loginAction = createAsyncThunk<
   } = await api.post<UserData>(APIRoute.Login, { email, password });
   saveToken(token);
   dispatch(requireAuthorization(AuthorizationStatus.Auth));
+  dispatch(redirectToRoute(AppRoute.Root));
 });
 
 const logoutAction = createAsyncThunk<

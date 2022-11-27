@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { Genre, AuthorizationStatus } from '../const';
+import { Genre, AuthorizationStatus, AppRoute } from '../const';
 
 import { Films } from '../types/films';
 import { Film } from '../types/film';
@@ -31,7 +31,10 @@ const requireAuthorization =
 
 const setError = createAction<string | null>('setError');
 
+const redirectToRoute = createAction<typeof AppRoute[keyof typeof AppRoute]>('redirectToRoute');
+
 export {
+  redirectToRoute,
   setActiveGenre,
   getFiltredByGenreFilmList,
   resetFilmsCount,
