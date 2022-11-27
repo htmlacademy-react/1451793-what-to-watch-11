@@ -13,6 +13,7 @@ import {
   setFilmsDataLoading,
   redirectToRoute,
   loadFilmComments,
+  loadSimilarFilms,
 } from './action';
 
 import { saveToken, dropToken } from '../services/token';
@@ -45,6 +46,19 @@ const fetchFilmCommentsAction = createAsyncThunk<
   const { data } = await api.get<Comments>(`${APIRoute.Comments}/${filmId}`);
   if (data) {
     dispatch(loadFilmComments(data));
+  } else {
+    throw new Error('No data');
+  }
+});
+
+const fetchSimilarFilmsAction = createAsyncThunk<
+  void,
+  string,
+  { dispatch: AppDispatch; state: State; extra: AxiosInstance }
+>('fetchSimilarFilms', async (filmId, { dispatch, extra: api }) => {
+  const { data } = await api.get<Films>(`${APIRoute.Films}/${filmId}/similar`);
+  if (data) {
+    dispatch(loadSimilarFilms(data));
   } else {
     throw new Error('No data');
   }
@@ -118,4 +132,5 @@ export {
   fetchPromoFilmAction,
   checkAuthAction,
   fetchFilmCommentsAction,
+  fetchSimilarFilmsAction,
 };

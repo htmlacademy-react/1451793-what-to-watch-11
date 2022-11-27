@@ -10,15 +10,14 @@ import Reviews from '../../components/reviews/reviews';
 import FilmsList from '../../components/films-list/films-list';
 import UserBlock from '../../components/user-block/user-block';
 
-import { similarFilms } from '../../mocks/similar-films';
-
-import { Tab } from '../../const';
+import { Tab, SIMILAR_FILMS_COUNT } from '../../const';
 
 import { Films } from '../../types/films';
 import { Comments } from '../../types/comments';
 
 import { store } from '../../store';
-import { fetchFilmCommentsAction } from '../../store/api-actions';
+import { fetchFilmCommentsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 type Props = {
   films: Films;
@@ -45,8 +44,11 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
   useEffect(() => {
     if (params.id) {
       store.dispatch(fetchFilmCommentsAction(params.id));
+      store.dispatch(fetchSimilarFilmsAction(params.id));
     }
   }, [params.id]);
+
+  const { similarFilms } = useAppSelector((state) => state);
 
   return (
     <>
@@ -126,7 +128,7 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={similarFilms} />
+          <FilmsList films={similarFilms.slice(0, SIMILAR_FILMS_COUNT)} />
         </section>
 
         <Footer />

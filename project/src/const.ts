@@ -52,6 +52,7 @@ const Genre = {
 } as const;
 
 const FILMS_COUNT = 8;
+const SIMILAR_FILMS_COUNT = 4;
 
 const URL_API = 'https://11.react.pages.academy/wtw';
 
@@ -77,4 +78,5 @@ export {
   URL_API,
   REQUEST_TIMEOUT,
   APIRoute,
+  SIMILAR_FILMS_COUNT,
 };
