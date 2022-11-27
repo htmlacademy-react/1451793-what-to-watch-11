@@ -7,8 +7,9 @@ import Footer from '../../components/footer/footer';
 
 import { loginAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import { AuthData } from '../../types/auth-data';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 const SignInScreen = (): JSX.Element => {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -16,6 +17,7 @@ const SignInScreen = (): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { authorizationStatus } = useAppSelector((state) => state);
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
@@ -72,7 +74,15 @@ const SignInScreen = (): JSX.Element => {
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit" onClick={() => navigate(AppRoute.Root)}>
+            <button
+              className="sign-in__btn"
+              type="submit"
+              onClick={() => {
+                if (authorizationStatus === AuthorizationStatus.Auth) {
+                  navigate(AppRoute.Root);
+                }
+              }}
+            >
               Sign in
             </button>
           </div>
