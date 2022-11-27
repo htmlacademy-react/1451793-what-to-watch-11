@@ -22,6 +22,7 @@ import {
   fetchFilmAction,
 } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type Props = {
   films: Films;
@@ -42,6 +43,10 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
   }, [params.id]);
 
   const { film, similarFilms } = useAppSelector((state) => state);
+
+  if (!film) {
+    return <NotFoundScreen />;
+  }
 
   return (
     <>
