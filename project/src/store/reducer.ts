@@ -11,6 +11,7 @@ import {
   setFilmsDataLoading,
   loadFilmComments,
   loadSimilarFilms,
+  loadFilm,
 } from './action';
 
 import { Genre, FILMS_COUNT, AuthorizationStatus } from '../const';
@@ -21,6 +22,7 @@ import { Comments } from '../types/comments';
 
 type InitialState = {
   activeGenre: typeof Genre[keyof typeof Genre];
+  film: Film | null;
   films: Films;
   promoFilm: Film | null;
   filtredByGenreFilmList: Films;
@@ -33,6 +35,7 @@ type InitialState = {
 
 const initialState: InitialState = {
   activeGenre: Genre.AllGenres,
+  film: null,
   films: [],
   promoFilm: null,
   filtredByGenreFilmList: [],
@@ -78,6 +81,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadSimilarFilms, (state, action) => {
       state.similarFilms = action.payload;
+    })
+    .addCase(loadFilm, (state, action) => {
+      state.film = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;

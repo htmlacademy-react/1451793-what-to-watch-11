@@ -23,6 +23,8 @@ const loadFilms = createAction<Films>('loadFilms');
 
 const loadFilmComments = createAction<Comments>('loadFilmComments');
 
+const loadFilm = createAction('loadFilm', (value: Film) => ({ payload: value }));
+
 const loadSimilarFilms = createAction('loadSimilarFilms', (value: Films) => ({ payload: value }));
 
 const loadPromoFilm = createAction<Film>('loadPromoFilm');
@@ -43,6 +45,7 @@ export {
   resetFilmsCount,
   increaseFilmsCount,
   loadFilms,
+  loadFilm,
   loadFilmComments,
   loadSimilarFilms,
   requireAuthorization,

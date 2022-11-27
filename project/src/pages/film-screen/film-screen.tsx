@@ -16,7 +16,11 @@ import { Films } from '../../types/films';
 import { Comments } from '../../types/comments';
 
 import { store } from '../../store';
-import { fetchFilmCommentsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
+import {
+  fetchFilmCommentsAction,
+  fetchSimilarFilmsAction,
+  fetchFilmAction,
+} from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 type Props = {
@@ -25,30 +29,19 @@ type Props = {
   reviews: Comments;
 };
 
-const getFilmById = (films: Films, filmId: number) => {
-  const filmById = films.find((film) => film.id === filmId);
-
-  if (filmById !== undefined) {
-    return filmById;
-  } else {
-    throw new Error(`Could not find the film with id ${filmId}`);
-  }
-};
-
 const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element => {
   const params = useParams();
   const [activeTab, setActiveTab] = useState<keyof typeof Tab>(Tab.Overview);
-
-  const film = getFilmById(films, Number(params.id));
 
   useEffect(() => {
     if (params.id) {
       store.dispatch(fetchFilmCommentsAction(params.id));
       store.dispatch(fetchSimilarFilmsAction(params.id));
+      store.dispatch(fetchFilmAction(params.id));
     }
   }, [params.id]);
 
-  const { similarFilms } = useAppSelector((state) => state);
+  const { film, similarFilms } = useAppSelector((state) => state);
 
   return (
     <>
@@ -58,11 +51,11 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
 
       <section
         className="film-card film-card--full"
-        style={{ backgroundColor: film.backgroundColor }}
+        style={{ backgroundColor: film?.backgroundColor }}
       >
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.backgroundImage} alt={film.name} />
+            <img src={film?.backgroundImage} alt={film?.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -75,10 +68,10 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{film?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.released}</span>
+                <span className="film-card__genre">{film?.genre}</span>
+                <span className="film-card__year">{film?.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -107,8 +100,8 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={film.posterImage}
-                alt={`${film.name || ''} poster`}
+                src={film?.posterImage}
+                alt={`${film?.name || ''} poster`}
                 width="218"
                 height="327"
               />
