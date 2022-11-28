@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import Tabs from '../../components/tabs/tabs';
@@ -10,7 +10,7 @@ import Reviews from '../../components/reviews/reviews';
 import FilmsList from '../../components/films-list/films-list';
 import UserBlock from '../../components/user-block/user-block';
 
-import { Tab, SIMILAR_FILMS_COUNT } from '../../const';
+import { Tab, SIMILAR_FILMS_COUNT, AuthorizationStatus, APIRoute } from '../../const';
 
 import { Films } from '../../types/films';
 import { Comments } from '../../types/comments';
@@ -42,7 +42,7 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
     }
   }, [params.id]);
 
-  const { film, similarFilms } = useAppSelector((state) => state);
+  const { film, similarFilms, authorizationStatus } = useAppSelector((state) => state);
 
   if (!film) {
     return <NotFoundScreen />;
@@ -93,9 +93,14 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
                   <span>My list</span>
                   <span className="film-card__count">{favoriteFilmsCount}</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">
-                  Add review
-                </a>
+                {authorizationStatus === AuthorizationStatus.Auth && (
+                  <Link
+                    to={`${APIRoute.Films}/${film?.id}/review`}
+                    className="btn film-card__button"
+                  >
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>

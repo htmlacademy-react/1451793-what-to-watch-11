@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
-import { DefaultFormBg } from '../../const';
+import { Link, useParams } from 'react-router-dom';
+import { APIRoute, DefaultFormBg } from '../../const';
 import Logo from '../../components/logo/logo';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
 import UserBlock from '../../components/user-block/user-block';
@@ -14,6 +14,7 @@ type Props = {
 const AddReviewScreen = ({ films }: Props): JSX.Element => {
   const params = useParams();
   const currentFilm = films.find((film) => film.id === Number(params.id));
+  const filmId = currentFilm ? currentFilm.id : '';
 
   return (
     <section
@@ -37,14 +38,14 @@ const AddReviewScreen = ({ films }: Props): JSX.Element => {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">
+                <Link to={`${APIRoute.Films}/${filmId}`} className="breadcrumbs__link">
                   {currentFilm?.name}
-                </a>
+                </Link>
               </li>
               <li className="breadcrumbs__item">
-                <a href="/" className="breadcrumbs__link">
+                <Link to={`${APIRoute.Films}/${filmId}/review`} className="breadcrumbs__link">
                   Add review
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
