@@ -64,7 +64,10 @@ const AddReviewScreen = ({ films }: Props): JSX.Element => {
       </div>
 
       <div className="add-review">
-        <AddReviewForm backgroundColor={currentFilm?.backgroundColor || DefaultFormBg.Color} />
+        <AddReviewForm
+          backgroundColor={currentFilm?.backgroundColor || DefaultFormBg.Color}
+          filmId={String(filmId)}
+        />
       </div>
     </section>
   );

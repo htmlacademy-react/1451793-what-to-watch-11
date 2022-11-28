@@ -1,72 +1,89 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, Fragment, FormEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { DefaultFormBg } from '../../const';
+import { DefaultFormBg, CommentLength, AppRoute } from '../../const';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { postCommentAction } from '../../store/api-actions';
 
 type Props = {
   backgroundColor: string;
+  filmId: string;
 };
 
-const AddReviewForm = ({ backgroundColor }: Props): JSX.Element => {
-  const [, setComment] = useState('');
+const AddReviewForm = ({ backgroundColor, filmId }: Props): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const handleChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+  const [formData, setFormData] = useState({
+    rating: '',
+    comment: '',
+  });
+
+  const [isSubmitBtnDisabled, setIsSubmitBtnDisabled] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const value = evt.target.value;
-    setComment(value);
+    setFormData({ ...formData, comment: value });
   };
 
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const value = evt.target.value;
+    setFormData({ ...formData, rating: value });
+  };
+
+  const onSubmit = async () => {
+    await dispatch(
+      postCommentAction({ comment: formData.comment, rating: Number(formData.rating), filmId }),
+    );
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    setIsSubmitting(true);
+
+    onSubmit().then(() => {
+      setIsSubmitting(false);
+      navigate(`${AppRoute.Films}/${filmId}`);
+    });
+  };
+
+  const ratingValues = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+
+  useEffect(() => {
+    const isValidFormData = () =>
+      formData.comment.length > CommentLength.Min &&
+      formData.comment.length < CommentLength.Max &&
+      formData.rating !== '';
+
+    if (isValidFormData()) {
+      setIsSubmitBtnDisabled(false);
+    } else {
+      setIsSubmitBtnDisabled(true);
+    }
+  }, [formData.rating, formData.comment]);
+
   return (
-    <form action="#" className="add-review__form">
+    <form action="#" className="add-review__form" onSubmit={handleSubmit}>
       <div className="rating">
         <div className="rating__stars">
-          <input className="rating__input" id="star-10" type="radio" name="rating" value="10" />
-          <label className="rating__label" htmlFor="star-10">
-            Rating 10
-          </label>
-
-          <input className="rating__input" id="star-9" type="radio" name="rating" value="9" />
-          <label className="rating__label" htmlFor="star-9">
-            Rating 9
-          </label>
-
-          <input className="rating__input" id="star-8" type="radio" name="rating" value="8" />
-          <label className="rating__label" htmlFor="star-8">
-            Rating 8
-          </label>
-
-          <input className="rating__input" id="star-7" type="radio" name="rating" value="7" />
-          <label className="rating__label" htmlFor="star-7">
-            Rating 7
-          </label>
-
-          <input className="rating__input" id="star-6" type="radio" name="rating" value="6" />
-          <label className="rating__label" htmlFor="star-6">
-            Rating 6
-          </label>
-
-          <input className="rating__input" id="star-5" type="radio" name="rating" value="5" />
-          <label className="rating__label" htmlFor="star-5">
-            Rating 5
-          </label>
-
-          <input className="rating__input" id="star-4" type="radio" name="rating" value="4" />
-          <label className="rating__label" htmlFor="star-4">
-            Rating 4
-          </label>
-
-          <input className="rating__input" id="star-3" type="radio" name="rating" value="3" />
-          <label className="rating__label" htmlFor="star-3">
-            Rating 3
-          </label>
-
-          <input className="rating__input" id="star-2" type="radio" name="rating" value="2" />
-          <label className="rating__label" htmlFor="star-2">
-            Rating 2
-          </label>
-
-          <input className="rating__input" id="star-1" type="radio" name="rating" value="1" />
-          <label className="rating__label" htmlFor="star-1">
-            Rating 1
-          </label>
+          {ratingValues.map((value) => (
+            <Fragment key={value}>
+              <input
+                onChange={handleRatingChange}
+                className="rating__input"
+                id={`star-${value}`}
+                type="radio"
+                name="rating"
+                value={value}
+                disabled={isSubmitting}
+              />
+              <label className="rating__label" htmlFor={`star-${value}`}>
+                {`Rating ${value}`}
+              </label>
+            </Fragment>
+          ))}
         </div>
       </div>
 
@@ -79,11 +96,16 @@ const AddReviewForm = ({ backgroundColor }: Props): JSX.Element => {
           name="review-text"
           id="review-text"
           placeholder="Review text"
-          onChange={handleChange}
+          onChange={handleCommentChange}
+          disabled={isSubmitting}
         >
         </textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">
+          <button
+            className="add-review__btn"
+            type="submit"
+            disabled={isSubmitBtnDisabled || isSubmitting}
+          >
             Post
           </button>
         </div>

@@ -15,6 +15,7 @@ import {
   loadFilmComments,
   loadSimilarFilms,
   loadFilm,
+  postComment,
 } from './action';
 
 import { saveToken, dropToken } from '../services/token';
@@ -23,6 +24,7 @@ import { APIRoute, AuthorizationStatus, AppRoute } from '../const';
 
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { CommentData } from '../types/comment-data.js';
 
 const fetchFilmsAction = createAsyncThunk<
   void,
@@ -139,6 +141,22 @@ const checkAuthAction = createAsyncThunk<
   }
 });
 
+const postCommentAction = createAsyncThunk<
+  void,
+  CommentData,
+  {
+    dispatch: AppDispatch;
+    stat: State;
+    extra: AxiosInstance;
+  }
+>('postComment', async ({ comment, rating, filmId }, { dispatch, extra: api }) => {
+  const { data } = await api.post<CommentData>(`${APIRoute.Comments}/${filmId}`, {
+    comment,
+    rating,
+  });
+  dispatch(postComment(data));
+});
+
 export {
   fetchFilmsAction,
   loginAction,
@@ -148,4 +166,5 @@ export {
   fetchFilmCommentsAction,
   fetchSimilarFilmsAction,
   fetchFilmAction,
+  postCommentAction,
 };

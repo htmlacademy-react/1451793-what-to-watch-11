@@ -66,6 +66,11 @@ const APIRoute = {
 
 const REQUEST_TIMEOUT = 5000;
 
+const CommentLength = {
+  Min: 50,
+  Max: 400,
+} as const;
+
 export {
   FILMS_COUNT,
   AppRoute,
@@ -79,4 +84,5 @@ export {
   REQUEST_TIMEOUT,
   APIRoute,
   SIMILAR_FILMS_COUNT,
+  CommentLength,
 };

@@ -5,6 +5,7 @@ import { Genre, AuthorizationStatus, AppRoute } from '../const';
 import { Films } from '../types/films';
 import { Film } from '../types/film';
 import { Comments } from '../types/comments';
+import { CommentData } from '../types/comment-data';
 
 const setActiveGenre = createAction(
   'setActiveGenre',
@@ -38,6 +39,8 @@ const requireAuthorization =
 
 const redirectToRoute = createAction<typeof AppRoute[keyof typeof AppRoute]>('redirectToRoute');
 
+const postComment = createAction('postComment', (value: CommentData) => ({ payload: value }));
+
 export {
   redirectToRoute,
   setActiveGenre,
@@ -51,4 +54,5 @@ export {
   requireAuthorization,
   loadPromoFilm,
   setFilmsDataLoading,
+  postComment,
 };
