@@ -6,12 +6,13 @@ import { fetchFilmsAction, fetchPromoFilmAction, checkAuthAction } from './store
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import ErrorMessage from './components/error-message/error-message';
 
-store.dispatch(checkAuthAction());
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchFilmsAction());
 store.dispatch(fetchPromoFilmAction());
+store.dispatch(checkAuthAction());
 
 const rootElement = document.getElementById('root');
 
@@ -21,7 +22,7 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <Provider store={store}>
-        <ErrorMessage />
+        <ToastContainer />
         <App />
       </Provider>
     </React.StrictMode>,

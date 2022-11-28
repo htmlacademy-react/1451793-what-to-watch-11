@@ -8,7 +8,6 @@ import {
   loadFilms,
   requireAuthorization,
   loadPromoFilm,
-  setError,
   setFilmsDataLoading,
 } from './action';
 
@@ -25,7 +24,6 @@ type InitialState = {
   filmsCount: number;
   authorizationStatus: typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
   isFilmsDataLoading: boolean;
-  error: string | null;
 };
 
 const initialState: InitialState = {
@@ -36,7 +34,6 @@ const initialState: InitialState = {
   filmsCount: FILMS_COUNT,
   authorizationStatus: AuthorizationStatus.Unknown,
   isFilmsDataLoading: false,
-  error: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -71,9 +68,6 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
-    })
-    .addCase(setError, (state, action) => {
-      state.error = action.payload;
     });
 });
 
