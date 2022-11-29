@@ -14,6 +14,7 @@ const TextRating = {
   Good: 'Good',
   VeryGood: 'Very Good',
   Awesome: 'Awesome',
+  NoData: 'No Data',
 } as const;
 
 const Tab = {

@@ -5,10 +5,17 @@ import { DefaultFormBg, CommentLength, AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { postCommentAction } from '../../store/api-actions';
 
+import { FormData } from '../../types/form-data';
+
 type Props = {
   backgroundColor: string;
   filmId: string;
 };
+
+const isValidFormData = (formData: FormData): boolean =>
+  formData.comment.length > CommentLength.Min &&
+  formData.comment.length < CommentLength.Max &&
+  formData.rating !== '';
 
 const AddReviewForm = ({ backgroundColor, filmId }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -52,17 +59,8 @@ const AddReviewForm = ({ backgroundColor, filmId }: Props): JSX.Element => {
   const ratingValues = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
   useEffect(() => {
-    const isValidFormData = () =>
-      formData.comment.length > CommentLength.Min &&
-      formData.comment.length < CommentLength.Max &&
-      formData.rating !== '';
-
-    if (isValidFormData()) {
-      setIsSubmitBtnDisabled(false);
-    } else {
-      setIsSubmitBtnDisabled(true);
-    }
-  }, [formData.rating, formData.comment]);
+    setIsSubmitBtnDisabled(!isValidFormData(formData));
+  }, [formData]);
 
   return (
     <form action="#" className="add-review__form" onSubmit={handleSubmit}>
@@ -80,7 +78,7 @@ const AddReviewForm = ({ backgroundColor, filmId }: Props): JSX.Element => {
                 disabled={isSubmitting}
               />
               <label className="rating__label" htmlFor={`star-${value}`}>
-                {`Rating ${value}`}
+                Rating {value}`
               </label>
             </Fragment>
           ))}

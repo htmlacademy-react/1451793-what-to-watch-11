@@ -14,7 +14,7 @@ type Props = {
 const AddReviewScreen = ({ films }: Props): JSX.Element => {
   const params = useParams();
   const currentFilm = films.find((film) => film.id === Number(params.id));
-  const filmId = currentFilm ? currentFilm.id : '';
+  const filmId = typeof currentFilm?.id === 'number' ? String(currentFilm.id) : '';
 
   return (
     <section
@@ -66,7 +66,7 @@ const AddReviewScreen = ({ films }: Props): JSX.Element => {
       <div className="add-review">
         <AddReviewForm
           backgroundColor={currentFilm?.backgroundColor || DefaultFormBg.Color}
-          filmId={String(filmId)}
+          filmId={filmId}
         />
       </div>
     </section>
