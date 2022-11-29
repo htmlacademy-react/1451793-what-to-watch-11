@@ -14,6 +14,7 @@ const TextRating = {
   Good: 'Good',
   VeryGood: 'Very Good',
   Awesome: 'Awesome',
+  NoData: 'No Data',
 } as const;
 
 const Tab = {
@@ -52,6 +53,7 @@ const Genre = {
 } as const;
 
 const FILMS_COUNT = 8;
+const SIMILAR_FILMS_COUNT = 4;
 
 const URL_API = 'https://11.react.pages.academy/wtw';
 
@@ -60,9 +62,15 @@ const APIRoute = {
   Promo: '/promo',
   Login: '/login',
   Logout: '/logout',
+  Comments: '/comments',
 } as const;
 
 const REQUEST_TIMEOUT = 5000;
+
+const CommentLength = {
+  Min: 50,
+  Max: 400,
+} as const;
 
 export {
   FILMS_COUNT,
@@ -76,4 +84,6 @@ export {
   URL_API,
   REQUEST_TIMEOUT,
   APIRoute,
+  SIMILAR_FILMS_COUNT,
+  CommentLength,
 };

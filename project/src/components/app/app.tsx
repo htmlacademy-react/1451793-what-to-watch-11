@@ -19,7 +19,7 @@ import PrivateRoute from '../private-route/private-route';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 const App = (): JSX.Element => {
-  const { films, promoFilm, isFilmsDataLoading } = useAppSelector((state) => state);
+  const { films, promoFilm, isFilmsDataLoading, reviews } = useAppSelector((state) => state);
   const favoriteFilms = films.filter((film) => film.isFavorite);
 
   if (isFilmsDataLoading) {
@@ -51,7 +51,13 @@ const App = (): JSX.Element => {
           />
           <Route
             path={AppRoute.Film}
-            element={<FilmScreen films={films} favoriteFilmsCount={favoriteFilms.length} />}
+            element={
+              <FilmScreen
+                films={films}
+                favoriteFilmsCount={favoriteFilms.length}
+                reviews={reviews}
+              />
+            }
           />
           <Route path={AppRoute.AddReview} element={<AddReviewScreen films={films} />} />
           <Route path={AppRoute.Player} element={<PlayerScreen films={films} />} />

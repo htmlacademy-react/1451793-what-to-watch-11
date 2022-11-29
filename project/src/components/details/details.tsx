@@ -4,7 +4,7 @@ import { formatMinutesToTime } from '../../utils';
 import { Film } from '../../types/film';
 
 type Props = {
-  film: Film;
+  film: Film | null;
 };
 
 const Details = ({ film }: Props): JSX.Element => (
@@ -12,12 +12,12 @@ const Details = ({ film }: Props): JSX.Element => (
     <div className="film-card__text-col">
       <p className="film-card__details-item">
         <strong className="film-card__details-name">Director</strong>
-        <span className="film-card__details-value">{film.director}</span>
+        <span className="film-card__details-value">{film?.director}</span>
       </p>
       <p className="film-card__details-item">
         <strong className="film-card__details-name">Starring</strong>
         <span className="film-card__details-value">
-          {film.starring.map((actor) => (
+          {film?.starring.map((actor) => (
             <Fragment key={actor}>
               {actor}
               <br />
@@ -30,15 +30,17 @@ const Details = ({ film }: Props): JSX.Element => (
     <div className="film-card__text-col">
       <p className="film-card__details-item">
         <strong className="film-card__details-name">Run Time</strong>
-        <span className="film-card__details-value">{formatMinutesToTime(film.runTime)}</span>
+        <span className="film-card__details-value">
+          {film && formatMinutesToTime(film.runTime)}
+        </span>
       </p>
       <p className="film-card__details-item">
         <strong className="film-card__details-name">Genre</strong>
-        <span className="film-card__details-value">{film.genre}</span>
+        <span className="film-card__details-value">{film?.genre}</span>
       </p>
       <p className="film-card__details-item">
         <strong className="film-card__details-name">Released</strong>
-        <span className="film-card__details-value">{film.released}</span>
+        <span className="film-card__details-value">{film?.released}</span>
       </p>
     </div>
   </div>

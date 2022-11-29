@@ -4,6 +4,7 @@ import { AppDispatch, State } from '../types/state.js';
 
 import { Films } from '../types/films';
 import { Film } from '../types/film';
+import { Comments } from '../types/comments.js';
 
 import {
   loadFilms,
@@ -11,6 +12,10 @@ import {
   loadPromoFilm,
   setFilmsDataLoading,
   redirectToRoute,
+  loadFilmComments,
+  loadSimilarFilms,
+  loadFilm,
+  postComment,
 } from './action';
 
 import { saveToken, dropToken } from '../services/token';
@@ -19,6 +24,7 @@ import { APIRoute, AuthorizationStatus, AppRoute } from '../const';
 
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { CommentData } from '../types/comment-data.js';
 
 const fetchFilmsAction = createAsyncThunk<
   void,
@@ -30,6 +36,45 @@ const fetchFilmsAction = createAsyncThunk<
   if (data) {
     dispatch(setFilmsDataLoading(false));
     dispatch(loadFilms(data));
+  } else {
+    throw new Error('No data');
+  }
+});
+
+const fetchFilmAction = createAsyncThunk<
+  void,
+  string,
+  { dispatch: AppDispatch; state: State; extra: AxiosInstance }
+>('fetchFilm', async (filmId, { dispatch, extra: api }) => {
+  const { data } = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
+  if (data) {
+    dispatch(loadFilm(data));
+  } else {
+    throw new Error('No data');
+  }
+});
+
+const fetchFilmCommentsAction = createAsyncThunk<
+  void,
+  string,
+  { dispatch: AppDispatch; state: State; extra: AxiosInstance }
+>('fetchFilmComments', async (filmId, { dispatch, extra: api }) => {
+  const { data } = await api.get<Comments>(`${APIRoute.Comments}/${filmId}`);
+  if (data) {
+    dispatch(loadFilmComments(data));
+  } else {
+    throw new Error('No data');
+  }
+});
+
+const fetchSimilarFilmsAction = createAsyncThunk<
+  void,
+  string,
+  { dispatch: AppDispatch; state: State; extra: AxiosInstance }
+>('fetchSimilarFilms', async (filmId, { dispatch, extra: api }) => {
+  const { data } = await api.get<Films>(`${APIRoute.Films}/${filmId}/similar`);
+  if (data) {
+    dispatch(loadSimilarFilms(data));
   } else {
     throw new Error('No data');
   }
@@ -96,4 +141,30 @@ const checkAuthAction = createAsyncThunk<
   }
 });
 
-export { fetchFilmsAction, loginAction, logoutAction, fetchPromoFilmAction, checkAuthAction };
+const postCommentAction = createAsyncThunk<
+  void,
+  CommentData,
+  {
+    dispatch: AppDispatch;
+    stat: State;
+    extra: AxiosInstance;
+  }
+>('postComment', async ({ comment, rating, filmId }, { dispatch, extra: api }) => {
+  const { data } = await api.post<CommentData>(`${APIRoute.Comments}/${filmId}`, {
+    comment,
+    rating,
+  });
+  dispatch(postComment(data));
+});
+
+export {
+  fetchFilmsAction,
+  loginAction,
+  logoutAction,
+  fetchPromoFilmAction,
+  checkAuthAction,
+  fetchFilmCommentsAction,
+  fetchSimilarFilmsAction,
+  fetchFilmAction,
+  postCommentAction,
+};
