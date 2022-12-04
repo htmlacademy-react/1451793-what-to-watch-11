@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { Genre, AuthorizationStatus, AppRoute } from '../const';
+import { Genre, AppRoute } from '../const';
 
 import { Films } from '../types/films';
 import { Film } from '../types/film';
@@ -32,11 +32,6 @@ const loadPromoFilm = createAction<Film>('loadPromoFilm');
 
 const setFilmsDataLoading = createAction<boolean>('setFilmsDataLoading');
 
-const requireAuthorization =
-  createAction<typeof AuthorizationStatus[keyof typeof AuthorizationStatus]>(
-    'requireAuthorization',
-  );
-
 const redirectToRoute = createAction<typeof AppRoute[keyof typeof AppRoute]>('redirectToRoute');
 
 const postComment = createAction('postComment', (value: CommentData) => ({ payload: value }));
@@ -51,7 +46,6 @@ export {
   loadFilm,
   loadFilmComments,
   loadSimilarFilms,
-  requireAuthorization,
   loadPromoFilm,
   setFilmsDataLoading,
   postComment,
