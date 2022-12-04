@@ -6,16 +6,7 @@ import { Films } from '../types/films';
 import { Film } from '../types/film';
 import { Comments } from '../types/comments.js';
 
-import {
-  loadFilms,
-  loadPromoFilm,
-  setFilmsDataLoading,
-  redirectToRoute,
-  loadFilmComments,
-  loadSimilarFilms,
-  loadFilm,
-  postComment,
-} from './action';
+import { redirectToRoute, loadFilmComments, postComment } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
@@ -26,28 +17,26 @@ import { UserData } from '../types/user-data';
 import { CommentData } from '../types/comment-data.js';
 
 const fetchFilmsAction = createAsyncThunk<
-  void,
+  Films,
   undefined,
   { dispatch: AppDispatch; state: State; extra: AxiosInstance }
->('fetchFilms', async (_arg, { dispatch, extra: api }) => {
-  dispatch(setFilmsDataLoading(true));
+>('fetchFilms', async (_arg, { extra: api }) => {
   const { data } = await api.get<Films>(APIRoute.Films);
   if (data) {
-    dispatch(setFilmsDataLoading(false));
-    dispatch(loadFilms(data));
+    return data;
   } else {
     throw new Error('No data');
   }
 });
 
 const fetchFilmAction = createAsyncThunk<
-  void,
+  Film,
   string,
   { dispatch: AppDispatch; state: State; extra: AxiosInstance }
->('fetchFilm', async (filmId, { dispatch, extra: api }) => {
+>('fetchFilm', async (filmId, { extra: api }) => {
   const { data } = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
   if (data) {
-    dispatch(loadFilm(data));
+    return data;
   } else {
     throw new Error('No data');
   }
@@ -67,13 +56,13 @@ const fetchFilmCommentsAction = createAsyncThunk<
 });
 
 const fetchSimilarFilmsAction = createAsyncThunk<
-  void,
+  Films,
   string,
   { dispatch: AppDispatch; state: State; extra: AxiosInstance }
->('fetchSimilarFilms', async (filmId, { dispatch, extra: api }) => {
+>('fetchSimilarFilms', async (filmId, { extra: api }) => {
   const { data } = await api.get<Films>(`${APIRoute.Films}/${filmId}/similar`);
   if (data) {
-    dispatch(loadSimilarFilms(data));
+    return data;
   } else {
     throw new Error('No data');
   }
@@ -109,16 +98,16 @@ const logoutAction = createAsyncThunk<
 });
 
 const fetchPromoFilmAction = createAsyncThunk<
-  void,
+  Film,
   undefined,
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }
->('fetchPromoFilmAction', async (_arg, { dispatch, extra: api }) => {
+>('fetchPromoFilmAction', async (_arg, { extra: api }) => {
   const { data } = await api.get<Film>(APIRoute.Promo);
-  dispatch(loadPromoFilm(data));
+  return data;
 });
 
 const checkAuthAction = createAsyncThunk<
