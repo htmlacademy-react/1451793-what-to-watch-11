@@ -73,7 +73,6 @@ const CommentLength = {
 } as const;
 
 const NameSpace = {
-  Data: 'DATA',
   Site: 'SITE',
   User: 'USER',
 } as const;
