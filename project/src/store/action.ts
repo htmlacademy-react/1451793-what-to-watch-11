@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { AppRoute } from '../const';
+import { AppRoute, Genre } from '../const';
 
 import { Comments } from '../types/comments';
 import { CommentData } from '../types/comment-data';
@@ -11,4 +11,20 @@ const redirectToRoute = createAction<typeof AppRoute[keyof typeof AppRoute]>('re
 
 const postComment = createAction('postComment', (value: CommentData) => ({ payload: value }));
 
-export { redirectToRoute, loadFilmComments, postComment };
+const setActiveGenre = createAction<typeof Genre[keyof typeof Genre]>('setActiveGenre');
+
+const getFiltredByGenreFilmList = createAction('getFiltredByGenreFilmList');
+
+const resetFilmsCount = createAction('resetFilmsCount');
+
+const increaseFilmsCount = createAction('increaseFilmsCount');
+
+export {
+  redirectToRoute,
+  loadFilmComments,
+  postComment,
+  setActiveGenre,
+  getFiltredByGenreFilmList,
+  resetFilmsCount,
+  increaseFilmsCount,
+};

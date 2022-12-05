@@ -2,6 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { NameSpace, FILMS_COUNT, Genre } from '../../const';
 import { SiteProcess } from '../../types/state';
+import {
+  setActiveGenre,
+  getFiltredByGenreFilmList,
+  resetFilmsCount,
+  increaseFilmsCount,
+} from '../action';
 
 import {
   fetchFilmAction,
@@ -9,6 +15,7 @@ import {
   fetchSimilarFilmsAction,
   fetchPromoFilmAction,
   postCommentAction,
+  fetchFilmCommentsAction,
 } from '../api-actions';
 
 const initialState: SiteProcess = {
@@ -35,17 +42,24 @@ export const siteProcess = createSlice({
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
         state.films = action.payload;
         state.filtredByGenreFilmList = action.payload;
-        state.isFilmsDataLoading = true;
+        state.isFilmsDataLoading = false;
       })
       .addCase(fetchFilmAction.pending, (state) => {
-        state.isFilmsDataLoading = true;
+        state.isFilmsDataLoading = false;
       })
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
         state.film = action.payload;
         state.isFilmsDataLoading = false;
       })
+      .addCase(fetchFilmCommentsAction.pending, (state) => {
+        state.isFilmsDataLoading = false;
+      })
+      .addCase(fetchFilmCommentsAction.fulfilled, (state, action) => {
+        state.reviews = action.payload;
+        state.isFilmsDataLoading = false;
+      })
       .addCase(fetchSimilarFilmsAction.pending, (state) => {
-        state.isFilmsDataLoading = true;
+        state.isFilmsDataLoading = false;
       })
       .addCase(fetchSimilarFilmsAction.fulfilled, (state, action) => {
         state.similarFilms = action.payload;
@@ -63,6 +77,24 @@ export const siteProcess = createSlice({
       })
       .addCase(postCommentAction.fulfilled, (state) => {
         state.isFilmsDataLoading = false;
+      })
+      .addCase(setActiveGenre, (state, action) => {
+        state.activeGenre = action.payload;
+      })
+      .addCase(getFiltredByGenreFilmList, (state) => {
+        if (state.activeGenre === Genre.AllGenres) {
+          state.filtredByGenreFilmList = state.films;
+        } else {
+          state.filtredByGenreFilmList = state.films.filter(
+            (film) => film.genre === state.activeGenre,
+          );
+        }
+      })
+      .addCase(resetFilmsCount, (state) => {
+        state.filmsCount = FILMS_COUNT;
+      })
+      .addCase(increaseFilmsCount, (state) => {
+        state.filmsCount += FILMS_COUNT;
       });
   },
 });

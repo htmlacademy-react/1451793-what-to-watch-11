@@ -9,10 +9,16 @@ import App from './components/app/app';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { fetchPromoFilmAction, fetchFilmsAction, checkAuthAction } from './store/api-actions';
+
 const rootElement = document.getElementById('root');
 
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
+
+  store.dispatch(fetchPromoFilmAction());
+  store.dispatch(fetchFilmsAction());
+  store.dispatch(checkAuthAction());
 
   root.render(
     <React.StrictMode>

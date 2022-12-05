@@ -10,6 +10,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { AuthData } from '../../types/auth-data';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 const SignInScreen = (): JSX.Element => {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -17,7 +18,7 @@ const SignInScreen = (): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { authorizationStatus } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));

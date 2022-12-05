@@ -17,9 +17,19 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import PrivateRoute from '../private-route/private-route';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
+import {
+  getFilms,
+  getPromoFilm,
+  getFilmsDataLoadingStatus,
+  getFilmComments,
+} from '../../store/site-process/selectors';
 
 const App = (): JSX.Element => {
-  const { films, promoFilm, isFilmsDataLoading, reviews } = useAppSelector((state) => state);
+  const films = useAppSelector(getFilms);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
+  const reviews = useAppSelector(getFilmComments);
+
   const favoriteFilms = films.filter((film) => film.isFavorite);
 
   if (isFilmsDataLoading) {

@@ -5,8 +5,10 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { logoutAction } from '../../store/api-actions';
 
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+
 const UserBlock = (): JSX.Element => {
-  const { authorizationStatus } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
 
   const handleClick = (evt: React.MouseEvent) => {

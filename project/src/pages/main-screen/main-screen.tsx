@@ -11,6 +11,8 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { Films } from '../../types/films';
 import { Film } from '../../types/film';
 
+import { getFiltredByGenreFilms, getFilmsCount } from '../../store/site-process/selectors';
+
 type Props = {
   promoFilm: Film | null;
   films: Films;
@@ -18,7 +20,8 @@ type Props = {
 };
 
 const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Element => {
-  const { filtredByGenreFilmList, filmsCount } = useAppSelector((state) => state);
+  const filtredByGenreFilmList = useAppSelector(getFiltredByGenreFilms);
+  const filmsCount = useAppSelector(getFilmsCount);
 
   return (
     <>

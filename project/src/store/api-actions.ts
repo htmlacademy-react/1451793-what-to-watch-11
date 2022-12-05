@@ -6,7 +6,7 @@ import { Films } from '../types/films';
 import { Film } from '../types/film';
 import { Comments } from '../types/comments.js';
 
-import { redirectToRoute, loadFilmComments, postComment } from './action';
+import { redirectToRoute, postComment } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
@@ -43,13 +43,13 @@ const fetchFilmAction = createAsyncThunk<
 });
 
 const fetchFilmCommentsAction = createAsyncThunk<
-  void,
+  Comments,
   string,
   { dispatch: AppDispatch; state: State; extra: AxiosInstance }
 >('fetchFilmComments', async (filmId, { dispatch, extra: api }) => {
   const { data } = await api.get<Comments>(`${APIRoute.Comments}/${filmId}`);
   if (data) {
-    dispatch(loadFilmComments(data));
+    return data;
   } else {
     throw new Error('No data');
   }
