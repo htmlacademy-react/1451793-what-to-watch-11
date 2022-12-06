@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, Fragment, FormEvent, useEffect, useMemo } from 'react';
+import { useState, ChangeEvent, Fragment, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { DefaultFormBg, CommentLength, AppRoute } from '../../const';
@@ -12,18 +12,14 @@ type Props = {
   filmId: string;
 };
 
+const isValidFormData = (formData: FormData): boolean =>
+  formData.comment.length > CommentLength.Min &&
+  formData.comment.length < CommentLength.Max &&
+  formData.rating !== '';
+
 const AddReviewForm = ({ backgroundColor, filmId }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const isValidFormData = useMemo(
-    () =>
-      (formData: FormData): boolean =>
-        formData.comment.length > CommentLength.Min &&
-        formData.comment.length < CommentLength.Max &&
-        formData.rating !== '',
-    [],
-  );
 
   const [formData, setFormData] = useState({
     rating: '',
@@ -64,7 +60,7 @@ const AddReviewForm = ({ backgroundColor, filmId }: Props): JSX.Element => {
 
   useEffect(() => {
     setIsSubmitBtnDisabled(!isValidFormData(formData));
-  }, [formData, isValidFormData]);
+  }, [formData]);
 
   return (
     <form action="#" className="add-review__form" onSubmit={handleSubmit}>
