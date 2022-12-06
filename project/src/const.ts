@@ -72,6 +72,11 @@ const CommentLength = {
   Max: 400,
 } as const;
 
+const NameSpace = {
+  Site: 'SITE',
+  User: 'USER',
+} as const;
+
 export {
   FILMS_COUNT,
   AppRoute,
@@ -86,4 +91,5 @@ export {
   APIRoute,
   SIMILAR_FILMS_COUNT,
   CommentLength,
+  NameSpace,
 };

@@ -7,6 +7,7 @@ import { Films } from '../../types/films';
 import { setActiveGenre, getFiltredByGenreFilmList, resetFilmsCount } from '../../store/action';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { getActiveGenre } from '../../store/site-process/selectors';
 
 type Props = {
   films: Films;
@@ -19,7 +20,7 @@ const GenresList = ({ films }: Props): JSX.Element => {
   ];
 
   const dispatch = useAppDispatch();
-  const { activeGenre } = useAppSelector((state) => state);
+  const activeGenre = useAppSelector(getActiveGenre);
 
   return (
     <ul className="catalog__genres-list">

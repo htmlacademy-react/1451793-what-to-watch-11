@@ -23,6 +23,8 @@ import {
 } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import { getFilm, getSimilarFilms } from '../../store/site-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type Props = {
   films: Films;
@@ -42,7 +44,9 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
     }
   }, [params.id]);
 
-  const { film, similarFilms, authorizationStatus } = useAppSelector((state) => state);
+  const film = useAppSelector(getFilm);
+  const similarFilms = useAppSelector(getSimilarFilms);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (!film) {
     return <NotFoundScreen />;
