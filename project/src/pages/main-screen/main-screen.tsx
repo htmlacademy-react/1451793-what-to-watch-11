@@ -1,4 +1,7 @@
 import { Helmet } from 'react-helmet-async';
+
+import { useNavigate } from 'react-router-dom';
+
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmsList from '../../components/films-list/films-list';
@@ -22,6 +25,18 @@ type Props = {
 const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Element => {
   const filtredByGenreFilmList = useAppSelector(getFiltredByGenreFilms);
   const filmsCount = useAppSelector(getFilmsCount);
+
+  const navigate = useNavigate();
+
+  const handlePlayBtnClick = () => {
+    if (!promoFilm) {
+      return;
+    }
+
+    const path = `/player/${promoFilm.id}`;
+
+    navigate(path);
+  };
 
   return (
     <>
@@ -55,7 +70,11 @@ const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Elemen
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button
+                  className="btn btn--play film-card__button"
+                  type="button"
+                  onClick={handlePlayBtnClick}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>

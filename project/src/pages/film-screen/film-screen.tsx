@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import Tabs from '../../components/tabs/tabs';
@@ -36,6 +36,8 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
   const params = useParams();
   const [activeTab, setActiveTab] = useState<keyof typeof Tab>(Tab.Overview);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (params.id) {
       store.dispatch(fetchFilmCommentsAction(params.id));
@@ -47,6 +49,16 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
   const film = useAppSelector(getFilm);
   const similarFilms = useAppSelector(getSimilarFilms);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
+  const handlePlayBtnClick = () => {
+    if (!film) {
+      return;
+    }
+
+    const path = `/player/${film.id}`;
+
+    navigate(path);
+  };
 
   if (!film) {
     return <NotFoundScreen />;
@@ -84,7 +96,11 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button
+                  className="btn btn--play film-card__button"
+                  type="button"
+                  onClick={handlePlayBtnClick}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>

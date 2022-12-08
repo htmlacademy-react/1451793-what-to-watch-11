@@ -8,6 +8,14 @@ dayjs.extend(duration);
 const formatMinutesToTime = (minutes: number): string =>
   dayjs.duration(minutes, 'minutes').format('H[h] mm[m]');
 
+const formatSecondsToTime = (seconds: number): string => {
+  const hour = 3600;
+  if (seconds < hour) {
+    return dayjs.duration(seconds, 'seconds').format('mm:ss');
+  }
+  return dayjs.duration(seconds, 'seconds').format('H:mm:ss');
+};
+
 type TextRatingType = typeof TextRating[keyof typeof TextRating];
 
 const getTextRating = (rating: number): TextRatingType => {
@@ -29,4 +37,4 @@ const getTextRating = (rating: number): TextRatingType => {
   return TextRating.VeryGood;
 };
 
-export { formatMinutesToTime, getTextRating };
+export { formatMinutesToTime, getTextRating, formatSecondsToTime };
