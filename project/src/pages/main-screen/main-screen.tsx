@@ -15,6 +15,10 @@ import { Films } from '../../types/films';
 import { Film } from '../../types/film';
 
 import { getFiltredByGenreFilms, getFilmsCount } from '../../store/site-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { redirectToRoute } from '../../store/action';
 
 type Props = {
   promoFilm: Film | null;
@@ -26,6 +30,9 @@ const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Elemen
   const filtredByGenreFilmList = useAppSelector(getFiltredByGenreFilms);
   const filmsCount = useAppSelector(getFilmsCount);
 
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   const handlePlayBtnClick = () => {
@@ -36,6 +43,12 @@ const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Elemen
     const path = `/player/${promoFilm.id}`;
 
     navigate(path);
+  };
+
+  const handleAddBtnClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.SignIn));
+    }
   };
 
   return (
@@ -80,7 +93,11 @@ const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Elemen
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button
+                  className="btn btn--list film-card__button"
+                  type="button"
+                  onClick={handleAddBtnClick}
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
