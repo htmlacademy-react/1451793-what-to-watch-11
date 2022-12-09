@@ -6,7 +6,7 @@ import { Films } from '../types/films';
 import { Film } from '../types/film';
 import { Comments } from '../types/comments.js';
 
-import { redirectToRoute, postComment } from './action';
+import { redirectToRoute, postComment, changeFilmStatus } from './action';
 
 import { saveToken, dropToken } from '../services/token';
 
@@ -15,6 +15,7 @@ import { APIRoute, AppRoute } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { CommentData } from '../types/comment-data.js';
+import { FilmStatus } from '../types/film-status.js';
 
 const fetchFilmsAction = createAsyncThunk<
   Films,
@@ -66,6 +67,35 @@ const fetchSimilarFilmsAction = createAsyncThunk<
   } else {
     throw new Error('No data');
   }
+});
+
+const fetchFavoriteFilmsAction = createAsyncThunk<
+  Films,
+  undefined,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('fetchFavoriteFilms', async (_arg, { extra: api }) => {
+  const { data } = await api.get<Films>(APIRoute.Favorite);
+  return data;
+});
+
+const changeFilmStatusAction = createAsyncThunk<
+  void,
+  FilmStatus,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>('changeFilmStatus', async ({ filmId, status }, { dispatch, extra: api }) => {
+  const { data } = await api.post<FilmStatus>(`${AppRoute.Favorite}/${filmId}/${status}`, {
+    filmId,
+    status,
+  });
+  dispatch(changeFilmStatus(data));
 });
 
 const loginAction = createAsyncThunk<
@@ -148,4 +178,6 @@ export {
   fetchSimilarFilmsAction,
   fetchFilmAction,
   postCommentAction,
+  fetchFavoriteFilmsAction,
+  changeFilmStatusAction,
 };

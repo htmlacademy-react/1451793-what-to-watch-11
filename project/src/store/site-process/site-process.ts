@@ -13,9 +13,11 @@ import {
   fetchFilmAction,
   fetchFilmsAction,
   fetchSimilarFilmsAction,
+  fetchFavoriteFilmsAction,
   fetchPromoFilmAction,
   postCommentAction,
   fetchFilmCommentsAction,
+  changeFilmStatusAction,
 } from '../api-actions';
 
 const initialState: SiteProcess = {
@@ -28,6 +30,8 @@ const initialState: SiteProcess = {
   isFilmsDataLoading: false,
   reviews: [],
   similarFilms: [],
+  favoriteFilmsList: [],
+  isFavoriteStatusChanged: false,
 };
 
 export const siteProcess = createSlice({
@@ -65,8 +69,15 @@ export const siteProcess = createSlice({
         state.similarFilms = action.payload;
         state.isFilmsDataLoading = false;
       })
+      .addCase(fetchFavoriteFilmsAction.pending, (state) => {
+        state.isFilmsDataLoading = false;
+      })
+      .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
+        state.favoriteFilmsList = action.payload;
+        state.isFilmsDataLoading = false;
+      })
       .addCase(fetchPromoFilmAction.pending, (state) => {
-        state.isFilmsDataLoading = true;
+        state.isFilmsDataLoading = false;
       })
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
         state.promoFilm = action.payload;
@@ -95,6 +106,12 @@ export const siteProcess = createSlice({
       })
       .addCase(increaseFilmsCount, (state) => {
         state.filmsCount += FILMS_COUNT;
+      })
+      .addCase(changeFilmStatusAction.pending, (state) => {
+        state.isFavoriteStatusChanged = false;
+      })
+      .addCase(changeFilmStatusAction.fulfilled, (state) => {
+        state.isFavoriteStatusChanged = true;
       });
   },
 });

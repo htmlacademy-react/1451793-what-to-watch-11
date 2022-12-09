@@ -19,18 +19,14 @@ import PrivateRoute from '../private-route/private-route';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import {
   getFilms,
-  getPromoFilm,
   getFilmsDataLoadingStatus,
   getFilmComments,
 } from '../../store/site-process/selectors';
 
 const App = (): JSX.Element => {
   const films = useAppSelector(getFilms);
-  const promoFilm = useAppSelector(getPromoFilm);
   const isFilmsDataLoading = useAppSelector(getFilmsDataLoadingStatus);
   const reviews = useAppSelector(getFilmComments);
-
-  const favoriteFilms = films.filter((film) => film.isFavorite);
 
   if (isFilmsDataLoading) {
     return <LoadingScreen />;
@@ -40,35 +36,17 @@ const App = (): JSX.Element => {
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>
         <Routes>
-          <Route
-            path={AppRoute.Root}
-            element={
-              <MainScreen
-                promoFilm={promoFilm}
-                films={films}
-                favoriteFilmsCount={favoriteFilms.length}
-              />
-            }
-          />
+          <Route path={AppRoute.Root} element={<MainScreen films={films} />} />
           <Route path={AppRoute.SignIn} element={<SignInScreen />} />
           <Route
             path={AppRoute.MyList}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <MyListScreen favoriteFilms={favoriteFilms} />
+                <MyListScreen />
               </PrivateRoute>
             }
           />
-          <Route
-            path={AppRoute.Film}
-            element={
-              <FilmScreen
-                films={films}
-                favoriteFilmsCount={favoriteFilms.length}
-                reviews={reviews}
-              />
-            }
-          />
+          <Route path={AppRoute.Film} element={<FilmScreen reviews={reviews} />} />
           <Route path={AppRoute.AddReview} element={<AddReviewScreen films={films} />} />
           <Route path={AppRoute.Player} element={<PlayerScreen films={films} />} />
           <Route path="*" element={<NotFoundScreen />} />

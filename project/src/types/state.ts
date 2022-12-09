@@ -18,6 +18,8 @@ export type SiteProcess = {
   isFilmsDataLoading: boolean;
   reviews: Comments;
   similarFilms: Films;
+  favoriteFilmsList: Films;
+  isFavoriteStatusChanged: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

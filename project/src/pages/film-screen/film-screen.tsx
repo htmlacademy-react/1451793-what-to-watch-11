@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import Tabs from '../../components/tabs/tabs';
@@ -10,47 +10,82 @@ import Reviews from '../../components/reviews/reviews';
 import FilmsList from '../../components/films-list/films-list';
 import UserBlock from '../../components/user-block/user-block';
 
-import { Tab, SIMILAR_FILMS_COUNT, AuthorizationStatus, APIRoute } from '../../const';
+import { Tab, SIMILAR_FILMS_COUNT, AuthorizationStatus, APIRoute, AppRoute } from '../../const';
 
-import { Films } from '../../types/films';
 import { Comments } from '../../types/comments';
 
-import { store } from '../../store';
 import {
   fetchFilmCommentsAction,
   fetchSimilarFilmsAction,
   fetchFilmAction,
+  changeFilmStatusAction,
+  fetchFavoriteFilmsAction,
 } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import { getFilm, getSimilarFilms } from '../../store/site-process/selectors';
+import {
+  getFavoriteFilms,
+  getFavoriteStatusChange,
+  getFilm,
+  getSimilarFilms,
+} from '../../store/site-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { redirectToRoute } from '../../store/action';
 
 type Props = {
-  films: Films;
-  favoriteFilmsCount: number;
   reviews: Comments;
 };
 
-const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element => {
+const FilmScreen = ({ reviews }: Props): JSX.Element => {
   const params = useParams();
+  const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState<keyof typeof Tab>(Tab.Overview);
 
-  useEffect(() => {
-    if (params.id) {
-      store.dispatch(fetchFilmCommentsAction(params.id));
-      store.dispatch(fetchSimilarFilmsAction(params.id));
-      store.dispatch(fetchFilmAction(params.id));
-    }
-  }, [params.id]);
+  const navigate = useNavigate();
 
   const film = useAppSelector(getFilm);
   const similarFilms = useAppSelector(getSimilarFilms);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteStatusChange = useAppSelector(getFavoriteStatusChange);
+
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchFavoriteFilmsAction());
+      dispatch(fetchFilmCommentsAction(params.id));
+      dispatch(fetchSimilarFilmsAction(params.id));
+      dispatch(fetchFilmAction(params.id));
+    }
+  }, [params.id, dispatch]);
+
+  useEffect(() => {
+    if (favoriteStatusChange && params.id) {
+      dispatch(fetchFavoriteFilmsAction());
+      dispatch(fetchFilmAction(params.id));
+    }
+  }, [favoriteStatusChange, dispatch, params.id]);
+
+  const handlePlayBtnClick = () => {
+    if (!film) {
+      return;
+    }
+
+    const path = `/player/${film.id}`;
+
+    navigate(path);
+  };
 
   if (!film) {
     return <NotFoundScreen />;
   }
+
+  const handleAddFilmBtnClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.SignIn));
+    }
+    dispatch(changeFilmStatusAction({ filmId: film.id, status: Number(!film.isFavorite) }));
+  };
 
   return (
     <>
@@ -84,18 +119,32 @@ const FilmScreen = ({ films, favoriteFilmsCount, reviews }: Props): JSX.Element 
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button
+                  className="btn btn--play film-card__button"
+                  type="button"
+                  onClick={handlePlayBtnClick}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
+                <button
+                  className="btn btn--list film-card__button"
+                  type="button"
+                  onClick={handleAddFilmBtnClick}
+                >
+                  {!film.isFavorite ? (
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 18 14" width="18" height="14">
+                      <use xlinkHref="#in-list"></use>
+                    </svg>
+                  )}
                   <span>My list</span>
-                  <span className="film-card__count">{favoriteFilmsCount}</span>
+                  <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
                 {authorizationStatus === AuthorizationStatus.Auth && (
                   <Link

@@ -6,6 +6,7 @@ const AppRoute = {
   Films: '/films',
   AddReview: '/films/:id/review',
   Player: '/player/:id',
+  Favorite: '/favorite',
 } as const;
 
 const TextRating = {
@@ -63,6 +64,7 @@ const APIRoute = {
   Login: '/login',
   Logout: '/logout',
   Comments: '/comments',
+  Favorite: '/favorite',
 } as const;
 
 const REQUEST_TIMEOUT = 5000;

@@ -1,27 +1,85 @@
 import { Helmet } from 'react-helmet-async';
+
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmsList from '../../components/films-list/films-list';
 import GenresList from '../../components/genres-list/genres-list';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import UserBlock from '../../components/user-block/user-block';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+
+import {
+  changeFilmStatusAction,
+  fetchPromoFilmAction,
+  fetchFavoriteFilmsAction,
+} from '../../store/api-actions';
+
+import { getFavoriteStatusChange, getPromoFilm } from '../../store/site-process/selectors';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 import { Films } from '../../types/films';
-import { Film } from '../../types/film';
 
-import { getFiltredByGenreFilms, getFilmsCount } from '../../store/site-process/selectors';
+import {
+  getFiltredByGenreFilms,
+  getFilmsCount,
+  getFavoriteFilms,
+} from '../../store/site-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { redirectToRoute } from '../../store/action';
 
 type Props = {
-  promoFilm: Film | null;
   films: Films;
-  favoriteFilmsCount: number;
 };
 
-const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Element => {
+const MainScreen = ({ films }: Props): JSX.Element => {
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const filtredByGenreFilmList = useAppSelector(getFiltredByGenreFilms);
   const filmsCount = useAppSelector(getFilmsCount);
+
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteStatusChange = useAppSelector(getFavoriteStatusChange);
+  const promoFilm = useAppSelector(getPromoFilm);
+
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteFilmsAction());
+
+    if (favoriteStatusChange) {
+      dispatch(fetchPromoFilmAction());
+    }
+  }, [favoriteStatusChange, dispatch]);
+
+  const handlePlayBtnClick = () => {
+    if (!promoFilm) {
+      return;
+    }
+
+    const path = `/player/${promoFilm.id}`;
+
+    navigate(path);
+  };
+
+  if (!promoFilm) {
+    return <NotFoundScreen />;
+  }
+
+  const handleAddFilmBtnClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.SignIn));
+    }
+    dispatch(
+      changeFilmStatusAction({ filmId: promoFilm.id, status: Number(!promoFilm.isFavorite) }),
+    );
+  };
 
   return (
     <>
@@ -55,18 +113,32 @@ const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Elemen
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button
+                  className="btn btn--play film-card__button"
+                  type="button"
+                  onClick={handlePlayBtnClick}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
+                <button
+                  className="btn btn--list film-card__button"
+                  type="button"
+                  onClick={handleAddFilmBtnClick}
+                >
+                  {!promoFilm.isFavorite ? (
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 18 14" width="18" height="14">
+                      <use xlinkHref="#in-list"></use>
+                    </svg>
+                  )}
                   <span>My list</span>
-                  <span className="film-card__count">{favoriteFilmsCount}</span>
+                  <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
               </div>
             </div>
