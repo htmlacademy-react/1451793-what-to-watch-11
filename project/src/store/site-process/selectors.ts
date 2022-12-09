@@ -4,7 +4,7 @@ import { Film } from '../../types/film';
 import { Films } from '../../types/films';
 import { Comments } from '../../types/comments';
 
-export const getFilms = (state: State): Film[] => state[NameSpace.Site].films;
+export const getFilms = (state: State): Films => state[NameSpace.Site].films;
 export const getFilm = (state: State): Film | null => state[NameSpace.Site].film;
 export const getFilmComments = (state: State): Comments => state[NameSpace.Site].reviews;
 export const getSimilarFilms = (state: State): Films => state[NameSpace.Site].similarFilms;
@@ -13,6 +13,9 @@ export const getFilmsDataLoadingStatus = (state: State): boolean =>
   state[NameSpace.Site].isFilmsDataLoading;
 export const getGenre = (state: State): string => state[NameSpace.Site].activeGenre;
 export const getFilmsCount = (state: State): number => state[NameSpace.Site].filmsCount;
-export const getFiltredByGenreFilms = (state: State): Film[] =>
+export const getFiltredByGenreFilms = (state: State): Films =>
   state[NameSpace.Site].filtredByGenreFilmList;
 export const getActiveGenre = (state: State) => state[NameSpace.Site].activeGenre;
+export const getFavoriteFilms = (state: State) => state[NameSpace.Site].favoriteFilmsList;
+export const getFavoriteStatusChange = (state: State) =>
+  state[NameSpace.Site].isFavoriteStatusChanged;

@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Logo from '../../components/logo/logo';
@@ -8,32 +9,54 @@ import FilmsList from '../../components/films-list/films-list';
 import GenresList from '../../components/genres-list/genres-list';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import UserBlock from '../../components/user-block/user-block';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+
+import {
+  changeFilmStatusAction,
+  fetchPromoFilmAction,
+  fetchFavoriteFilmsAction,
+} from '../../store/api-actions';
+
+import { getFavoriteStatusChange, getPromoFilm } from '../../store/site-process/selectors';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 import { Films } from '../../types/films';
-import { Film } from '../../types/film';
 
-import { getFiltredByGenreFilms, getFilmsCount } from '../../store/site-process/selectors';
+import {
+  getFiltredByGenreFilms,
+  getFilmsCount,
+  getFavoriteFilms,
+} from '../../store/site-process/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { redirectToRoute } from '../../store/action';
 
 type Props = {
-  promoFilm: Film | null;
   films: Films;
-  favoriteFilmsCount: number;
 };
 
-const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Element => {
+const MainScreen = ({ films }: Props): JSX.Element => {
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const filtredByGenreFilmList = useAppSelector(getFiltredByGenreFilms);
   const filmsCount = useAppSelector(getFilmsCount);
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteStatusChange = useAppSelector(getFavoriteStatusChange);
+  const promoFilm = useAppSelector(getPromoFilm);
+
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteFilmsAction());
+
+    if (favoriteStatusChange) {
+      dispatch(fetchPromoFilmAction());
+    }
+  }, [favoriteStatusChange, dispatch]);
 
   const handlePlayBtnClick = () => {
     if (!promoFilm) {
@@ -45,10 +68,17 @@ const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Elemen
     navigate(path);
   };
 
-  const handleAddBtnClick = () => {
+  if (!promoFilm) {
+    return <NotFoundScreen />;
+  }
+
+  const handleAddFilmBtnClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.SignIn));
     }
+    dispatch(
+      changeFilmStatusAction({ filmId: promoFilm.id, status: Number(!promoFilm.isFavorite) }),
+    );
   };
 
   return (
@@ -96,13 +126,19 @@ const MainScreen = ({ promoFilm, films, favoriteFilmsCount }: Props): JSX.Elemen
                 <button
                   className="btn btn--list film-card__button"
                   type="button"
-                  onClick={handleAddBtnClick}
+                  onClick={handleAddFilmBtnClick}
                 >
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
+                  {!promoFilm.isFavorite ? (
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 18 14" width="18" height="14">
+                      <use xlinkHref="#in-list"></use>
+                    </svg>
+                  )}
                   <span>My list</span>
-                  <span className="film-card__count">{favoriteFilmsCount}</span>
+                  <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
               </div>
             </div>

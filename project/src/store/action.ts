@@ -4,6 +4,7 @@ import { AppRoute, Genre } from '../const';
 
 import { Comments } from '../types/comments';
 import { CommentData } from '../types/comment-data';
+import { FilmStatus } from '../types/film-status';
 
 const loadFilmComments = createAction<Comments>('loadFilmComments');
 
@@ -19,6 +20,10 @@ const resetFilmsCount = createAction('resetFilmsCount');
 
 const increaseFilmsCount = createAction('increaseFilmsCount');
 
+const changeFilmStatus = createAction('changeFilmStatus', (value: FilmStatus) => ({
+  payload: value,
+}));
+
 export {
   redirectToRoute,
   loadFilmComments,
@@ -27,4 +32,5 @@ export {
   getFiltredByGenreFilmList,
   resetFilmsCount,
   increaseFilmsCount,
+  changeFilmStatus,
 };

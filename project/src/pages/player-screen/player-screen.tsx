@@ -88,7 +88,6 @@ const PlayerScreen = ({ films }: Props): JSX.Element => {
         Exit
       </button>
 
-
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
