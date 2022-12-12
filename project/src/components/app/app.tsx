@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRoute from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
@@ -34,7 +34,7 @@ const App = (): JSX.Element => {
 
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
+      <HistoryRoute history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Root} element={<MainScreen films={films} />} />
           <Route path={AppRoute.SignIn} element={<SignInScreen />} />
@@ -51,7 +51,7 @@ const App = (): JSX.Element => {
           <Route path={AppRoute.Player} element={<PlayerScreen films={films} />} />
           <Route path="*" element={<NotFoundScreen />} />
         </Routes>
-      </HistoryRouter>
+      </HistoryRoute>
     </HelmetProvider>
   );
 };
