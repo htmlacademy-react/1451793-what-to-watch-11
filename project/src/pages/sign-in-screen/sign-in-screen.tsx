@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
@@ -20,6 +20,21 @@ const SignInScreen = (): JSX.Element => {
   const navigate = useNavigate();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const isPasswordValid = (password: string) => {
+    const isPasswordFormatValid = /^(?=^[a-zA-Z0-9]{2,}$)(?=.*\d)(?=.*[a-zA-Z]).*$/.test(password);
+
+    if (!isPasswordFormatValid) {
+      setErrorMessage(
+        'The minimum password length is two symbols and password must contain minimum one letter and one number',
+      );
+    } else {
+      setErrorMessage('');
+    }
+    return isPasswordFormatValid;
+  };
+
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
   };
@@ -27,8 +42,19 @@ const SignInScreen = (): JSX.Element => {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
+    if (
+      loginRef.current !== null &&
+      passwordRef.current !== null &&
+      isPasswordValid(passwordRef.current.value)
+    ) {
       onSubmit({ login: loginRef.current.value, password: passwordRef.current.value });
+    }
+  };
+
+  const handlePasswordInput = (evt: FormEvent<HTMLInputElement>) => {
+    evt.preventDefault();
+    if (passwordRef.current) {
+      isPasswordValid(passwordRef.current.value);
     }
   };
 
@@ -68,6 +94,7 @@ const SignInScreen = (): JSX.Element => {
                 placeholder="Password"
                 name="user-password"
                 id="user-password"
+                onInput={handlePasswordInput}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">
                 Password
@@ -86,6 +113,9 @@ const SignInScreen = (): JSX.Element => {
             >
               Sign in
             </button>
+            <div>
+              <span>{errorMessage}</span>
+            </div>
           </div>
         </form>
       </div>
