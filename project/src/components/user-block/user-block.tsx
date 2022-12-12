@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { logoutAction } from '../../store/api-actions';
@@ -20,7 +20,9 @@ const UserBlock = (): JSX.Element => {
     <ul className="user-block">
       <li className="user-block__item">
         <div className="user-block__avatar">
-          <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+          <Link to={AppRoute.MyList}>
+            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+          </Link>
         </div>
       </li>
       <li className="user-block__item">
